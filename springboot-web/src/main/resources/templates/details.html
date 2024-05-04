@@ -1,13 +1,26 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Details</title>
+    <title th:text="${title}">Details</title>
+
+    <style>
+        body{
+            background-color: aquamarine;
+        }
+    </style>
 </head>
 <body>
-    <h1>Holas Mundo Spring boot</h1>
+    <h1 th:text="${title}">Titulo</h1>
+
+    <ul>
+        <li th:text="${name}">Nombre</li>
+        <li th:text="${lastName}">Apellido</li>
+        <li th:text="${age}">Edad</li>
+    </ul>
+
 </body>
 </html>
