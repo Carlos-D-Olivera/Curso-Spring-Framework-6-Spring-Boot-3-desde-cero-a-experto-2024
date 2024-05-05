@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carlos.curso.springboot.webapp.springbootweb.models.User;
+import com.carlos.curso.springboot.webapp.springbootweb.models.dto.UserDto;
 
 
 //   RestController: Es una combinacion entre @Controller y @RestController
@@ -16,9 +17,19 @@ import com.carlos.curso.springboot.webapp.springbootweb.models.User;
 @RequestMapping("/api")// ruta de primer nivel o base
 public class UserRestController {
 
-    //Usando un Map para pasar los datos
     @GetMapping("/details")// es la abrevacion para @RequestMapping(path="/details", method=RequestMethod.GET)
-    public Map<String, Object> details(){
+    public UserDto details(){
+
+        UserDto userDto = new UserDto();
+        User user = new User("Carlos", "Olivera", 19);
+        userDto.setUser(user);
+        userDto.setTitle("Hola mundo en Spring boot con Map");
+
+        return userDto;
+    }
+
+    @GetMapping("/details-map")// es la abrevacion para @RequestMapping(path="/details", method=RequestMethod.GET)
+    public Map<String, Object> detailsMap(){
 
         User user = new User("Carlos", "Olivera", 19);
 
