@@ -1,7 +1,12 @@
 package com.carlos.curso.springboot.webapp.springbootweb.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+// import java.util.HashMap;
+// import java.util.Map;
+// //import java.util.ArrayList;
+// import java.util.Arrays;
+// import java.util.List;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +31,24 @@ public class UserRestController {
         userDto.setTitle("Hola mundo en Spring boot con Map");
 
         return userDto;
+    }
+
+    @GetMapping("/list")
+    public List<User> list(){
+
+        User user = new User("Andres","Guzman", 17);
+        User user2 = new User("Pepe","Doe", 18);
+        User user3 = new User("Jhon","Doe", 19);
+
+        // List<User> users = new ArrayList<>();
+        // users.add(user);
+        // users.add(user2);
+        // users.add(user3);
+
+        List<User> users = new ArrayList<>(Arrays.asList(user, user2, user3));
+
+
+        return users;
     }
 
     @GetMapping("/details-map")// es la abrevacion para @RequestMapping(path="/details", method=RequestMethod.GET)
