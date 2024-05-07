@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Title</title>
+    <style>
+        body{
+            background-color: black;
+            color: whitesmoke;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.5em;
+        }
+        h1{
+            font-size: 2em;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 th:if="${users.size()==0}">Sin titulo!</h1>
+
+    <div th:if="${users.size()==0}" th:text="${'No tiene elementos usuarios!'}"></div>
+</body>
+</html>
