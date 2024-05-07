@@ -22,6 +22,8 @@
         <li th:text="${user.name}">Nombre</li>
         <li th:text="${user.lastname}">Apellido</li>
         <li th:text="${user.age}">Edad</li>
+        <li th:if="${user.email != null}" th:text="${user.email}">Email</li>
+        <li th:if="${not (user.email != null)}" th:text="${'No tiene email'}}"></li>
     </ul>
 
 </body>

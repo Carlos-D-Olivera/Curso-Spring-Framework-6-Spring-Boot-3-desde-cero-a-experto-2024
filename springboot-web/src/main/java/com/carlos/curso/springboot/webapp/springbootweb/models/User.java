@@ -4,6 +4,7 @@ public class User {
     private String name;
     private String lastname;
     private int age;
+    private String email;
 
 
     public User(String name, String lastname, int age) {
@@ -35,5 +36,11 @@ public class User {
         this.age = age;
     }
 
-    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
