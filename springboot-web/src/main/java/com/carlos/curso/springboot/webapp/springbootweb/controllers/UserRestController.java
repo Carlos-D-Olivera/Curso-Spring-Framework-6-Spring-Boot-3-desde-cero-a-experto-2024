@@ -56,7 +56,7 @@ public class UserRestController {
     @GetMapping("/details-map")// es la abrevacion para @RequestMapping(path="/details", method=RequestMethod.GET)
     public Map<String, Object> detailsMap(){
 
-        User user = new User("Carlos", "Olivera", 19);
+        User user = new User("Carlos", "Olivera", 19, "carlosdavidoliverag@gmail.com");
 
         Map<String, Object> body = new HashMap<>();
 

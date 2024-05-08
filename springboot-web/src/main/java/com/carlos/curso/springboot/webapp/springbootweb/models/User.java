@@ -6,10 +6,18 @@ public class User {
     private int age;
     private String email;
 
+    public User(){}
+
+    public User(String name, String lastname, int age, String email) {
+        this(name, lastname, age);
+        this.email = email;
+
+    }
 
     public User(String name, String lastname, int age) {
         this.name = name;
         this.lastname = lastname;
+        this.age = age;
     }
 
     public String getName(){
