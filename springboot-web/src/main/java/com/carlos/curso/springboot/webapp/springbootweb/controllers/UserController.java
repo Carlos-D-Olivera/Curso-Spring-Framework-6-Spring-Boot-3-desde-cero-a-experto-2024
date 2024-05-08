@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.carlos.curso.springboot.webapp.springbootweb.models.User;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,17 +28,30 @@ public class UserController {
     //ModelMap es un objeto de Spring parecido al Model que a la final implementa un map
     @GetMapping("/list")
     public String list(ModelMap model){
-        List<User> users =  Arrays.asList(
-            new User("Juancho", "Perez", 22, "juan@gmail.com"),
-            new User("Pepe", "Rodriguez", 19, "pepe@outlook.com"),
-            new User("Andres", "Ochoa", 64),
-            new User("Maria", "Gonzales", 25, "maria@hotmail.com")
-        );
+//        List<User> users =  Arrays.asList(
+//            new User("Juancho", "Perez", 22, "juan@gmail.com"),
+//            new User("Pepe", "Rodriguez", 19, "pepe@outlook.com"),
+//            new User("Andres", "Ochoa", 64),
+//            new User("Maria", "Gonzales", 25, "maria@hotmail.com")
+//        );
 
         //users = new ArrayList<>();
-        model.addAttribute("users",users);
+        //model.addAttribute("users",users);
         model.addAttribute("title","Listado de Usuarios");
         return "list";
+    }
+
+    @ModelAttribute("users")
+    public List<User> usersModel(){
+         //List<User> users =
+        //se devuelve directamente el array
+        return Arrays.asList(
+                new User("Juancho", "Perez", 22, "juan@gmail.com"),
+                new User("Pepe", "Rodriguez", 19, "pepe@outlook.com"),
+                new User("Andres", "Ochoa", 64),
+                new User("Maria", "Gonzales", 25, "maria@hotmail.com")
+        );
+        //return users;
     }
 
 }

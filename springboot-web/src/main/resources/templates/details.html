@@ -26,5 +26,25 @@
         <li th:if="${not (user.email != null)}" th:text="${'No tiene email'}}"></li>
     </ul>
 
+    <table th:if="${not users.isEmpty()}" class="table table-striped" style="width: 70%; border: 1px solid white">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Lastname</th>
+            <th>Age</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${users}" >
+            <td th:text="${user.name}" style="border: 1px solid white"></td>
+            <td th:text="${user.lastname}" style="border: 1px solid white"></td>
+            <td th:text="${user.age}" style="border: 1px solid white"></td>
+            <td th:if="${user.email != null}" th:text="${user.email}" style="border: 1px solid white"></td>
+            <td th:if="${user.email == null}" th:text="${'Sin email'}" style="color:red; border: 1px solid white"></td>
+        </tr>
+        </tbody>
+    </table>
+
 </body>
 </html>
