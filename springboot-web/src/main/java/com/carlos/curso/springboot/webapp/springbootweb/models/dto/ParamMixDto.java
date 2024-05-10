@@ -1,6 +1,6 @@
 package com.carlos.curso.springboot.webapp.springbootweb.models.dto;
 
-public class ParamDto {
+public class ParamMixDto {
 
     private String message;
     private Integer code;
@@ -13,5 +13,11 @@ public class ParamDto {
         this.message = message;
     }
 
+    public Integer getCode() {
+        return code;
+    }
 
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 }
