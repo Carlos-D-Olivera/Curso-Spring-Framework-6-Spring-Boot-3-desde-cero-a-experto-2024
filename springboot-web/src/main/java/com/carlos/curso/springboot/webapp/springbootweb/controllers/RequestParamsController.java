@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequestMapping("/api/params")
 @RestController
-public class RequestParamController {
+public class RequestParamsController {
 
     @GetMapping("/foo")
     public ParamDto foo(@RequestParam(required = false, defaultValue = "Hola que tal", name="mensaje") String message){
@@ -31,7 +31,7 @@ public class RequestParamController {
     }
 
 
-    @GetMapping("/request")
+    @GetMapping("/request") //El objeto HttpServletRequest es el objeto nativo del cual se obtienen los parametros, es inyectado por Spring
     public ParamMixDto request(HttpServletRequest request){
         Integer code = 10;
         try{
