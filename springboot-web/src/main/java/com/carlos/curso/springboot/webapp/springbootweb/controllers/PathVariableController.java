@@ -3,6 +3,7 @@ package com.carlos.curso.springboot.webapp.springbootweb.controllers;
 import com.carlos.curso.springboot.webapp.springbootweb.models.User;
 import com.carlos.curso.springboot.webapp.springbootweb.models.dto.ParamDto;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -11,6 +12,20 @@ import java.util.Map;
 @RequestMapping("/api/var")
 @RestController
 public class PathVariableController {
+
+    //Estos valores son inyectados por spring automaticamente con la anotacion @Value
+    @Value("${config.username}") //Con el @Value obtenemos las variables de la configuracion.
+    private String username;
+
+//    @Value("${config.message}")
+//    private String message;
+
+    @Value("${config.listOfValues}")
+    private String[] listOfValues;
+
+    @Value("${config.code}")
+    private Integer code;
+
     @GetMapping("/baz/{message}")
     public ParamDto baz(@PathVariable String message){
 
@@ -59,5 +74,18 @@ public class PathVariableController {
         //se retorna el usuario creado
         return u;
         
+    }
+
+    @GetMapping("/values")
+                                    //Tambien se puede colocar de esta manera para que se inyecte automaticamente y devolverlo en el metodo
+    public Map<String, Object> values(@Value("${config.message}") String message){
+        Map<String, Object> json = new HashMap<>();
+        json.put("username", username);
+        json.put("code", code);
+        json.put("message", message);
+        json.put("listOfValues", listOfValues);
+
+        return json;
+
     }
 }
