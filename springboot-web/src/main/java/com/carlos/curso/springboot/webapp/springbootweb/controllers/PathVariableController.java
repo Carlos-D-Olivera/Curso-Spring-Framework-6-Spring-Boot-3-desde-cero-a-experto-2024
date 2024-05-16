@@ -21,14 +21,28 @@ public class PathVariableController {
 //    @Value("${config.message}")
 //    private String message;
 
+
     @Value("${config.listOfValues}")
     private List<String> listOfValues; //tambien se puede recibir la lista como un List<>
-
+/*
+*   En el @Value se puede usar SpEl (Lenguaje de expresion de Spring) para manipular
+*   los valores que vienen del properties al momento de inyectarlos.
+*/
     @Value("#{ '${config.listOfValues}'.toUpperCase().split(',')}")
     private List<String> valueList
 
     ;@Value("#{ '${config.listOfValues}'.toUpperCase()}")
     private String valueString;
+
+
+    @Value("#{${config.valuesMap}}") //Podemos obtener la string y convertirla a un Map automaticamente
+    private Map<String, Object> valuesMap;
+
+    @Value("#{${config.valuesMap}.product}") //Obtenemos solo el product colocando el punto y la llave
+    private String product;
+
+    @Value("#{${config.valuesMap}.price}")
+    private Long price;
 
     @Value("${config.code}")
     private Integer code;
@@ -93,6 +107,9 @@ public class PathVariableController {
         json.put("listOfValues", listOfValues);
         json.put("valueList", valueList);
         json.put("valueString", valueString);
+        json.put("valuesMap", valuesMap);
+        json.put("product", product);
+        json.put("price", price);
         return json;
 
     }
