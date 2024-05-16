@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/api/var")
@@ -21,7 +22,13 @@ public class PathVariableController {
 //    private String message;
 
     @Value("${config.listOfValues}")
-    private String[] listOfValues;
+    private List<String> listOfValues; //tambien se puede recibir la lista como un List<>
+
+    @Value("#{ '${config.listOfValues}'.toUpperCase().split(',')}")
+    private List<String> valueList
+
+    ;@Value("#{ '${config.listOfValues}'.toUpperCase()}")
+    private String valueString;
 
     @Value("${config.code}")
     private Integer code;
@@ -84,7 +91,8 @@ public class PathVariableController {
         json.put("code", code);
         json.put("message", message);
         json.put("listOfValues", listOfValues);
-
+        json.put("valueList", valueList);
+        json.put("valueString", valueString);
         return json;
 
     }
