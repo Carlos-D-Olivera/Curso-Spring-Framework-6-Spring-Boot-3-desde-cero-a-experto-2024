@@ -49,7 +49,7 @@ public class PathVariableController {
     @Value("${config.code}")
     private Integer code;
 
-    @Autowired
+    @Autowired  //El objeto enviroment es provisto automaticamento por Spring
     private Environment environment;
 
     @GetMapping("/baz/{message}")
@@ -111,7 +111,12 @@ public class PathVariableController {
         json.put("code", code);
         json.put("message", message);
         json.put("message2", environment.getProperty("config.message"));
-        json.put("code2", ;
+        try{
+            //json.put("code2", Integer.valueOf(environment.getProperty("config.code2")));
+            json.put("code2", environment.getProperty("config.code2", Long.class)); //Se le pasa el tipo de dato al cual queremos que se convierta
+        }catch (NumberFormatException err){
+            json.put("code2", 404);
+        }
         json.put("listOfValues", listOfValues);
         json.put("valueList", valueList);
         json.put("valueString", valueString);
