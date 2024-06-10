@@ -1,7 +1,7 @@
 package com.cdog.springboot.di.app.SpringBoot_di.services;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
-import com.cdog.springboot.di.app.SpringBoot_di.repositories.ProductRepositoryImpl;
+import com.cdog.springboot.di.app.SpringBoot_di.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class ProductServiceImpl implements ProductService{
 
     //private ProductRepositoryImpl repository = new ProductRepositoryImpl(); ya no lo instanciaremos si no que se inyectara automaticamente
     @Autowired //Se inyecta automaticamente la implementacion de ProductRepository
-    private ProductRepositoryImpl repository;
+    private ProductRepository repository;
     @Override
     public List<Product> findAll(){
         return repository.findAll().stream().map(
