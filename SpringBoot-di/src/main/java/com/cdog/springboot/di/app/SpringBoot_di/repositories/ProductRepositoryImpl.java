@@ -1,11 +1,13 @@
 package com.cdog.springboot.di.app.SpringBoot_di.repositories;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ProductRepositoryImpl implements ProductRepository{
 
     private List<Product> data;

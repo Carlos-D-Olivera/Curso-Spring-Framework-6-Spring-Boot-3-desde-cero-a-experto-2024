@@ -2,6 +2,7 @@ package com.cdog.springboot.di.app.SpringBoot_di.controllers;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
 import com.cdog.springboot.di.app.SpringBoot_di.services.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +11,8 @@ import java.util.List;
 @RequestMapping("/api")
 public class SomeController {
 
-    private ProductServiceImpl productService = new ProductServiceImpl();
+    @Autowired //Lo inyectamos ya que el ProductServiceImpl esta anotado con @Component
+    private ProductServiceImpl productService  /*= new ProductServiceImpl()*/;
     @GetMapping()
     public List<Product> lists(){
         return productService.findAll();

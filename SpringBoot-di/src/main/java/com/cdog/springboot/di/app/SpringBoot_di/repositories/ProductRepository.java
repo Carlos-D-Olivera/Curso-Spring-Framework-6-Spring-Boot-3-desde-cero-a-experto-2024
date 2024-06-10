@@ -1,6 +1,7 @@
 package com.cdog.springboot.di.app.SpringBoot_di.repositories;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
