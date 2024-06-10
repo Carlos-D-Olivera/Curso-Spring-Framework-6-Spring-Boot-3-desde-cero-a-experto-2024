@@ -1,7 +1,7 @@
 package com.cdog.springboot.di.app.SpringBoot_di.controllers;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
-import com.cdog.springboot.di.app.SpringBoot_di.services.ProductService;
+import com.cdog.springboot.di.app.SpringBoot_di.services.ProductServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class SomeController {
 
-    private ProductService productService = new ProductService();
+    private ProductServiceImpl productService = new ProductServiceImpl();
     @GetMapping()
     public List<Product> lists(){
         return productService.findAll();
