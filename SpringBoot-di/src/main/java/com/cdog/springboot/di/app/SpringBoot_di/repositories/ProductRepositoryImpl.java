@@ -2,12 +2,14 @@ package com.cdog.springboot.di.app.SpringBoot_di.repositories;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
 //import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Primary //Se usa para indicar que esta va a ser la implematacion de ProductRepository que se va a usar
 //@Component
 @Repository //Se cambia el @Component por @Repository
 public class ProductRepositoryImpl implements ProductRepository{
