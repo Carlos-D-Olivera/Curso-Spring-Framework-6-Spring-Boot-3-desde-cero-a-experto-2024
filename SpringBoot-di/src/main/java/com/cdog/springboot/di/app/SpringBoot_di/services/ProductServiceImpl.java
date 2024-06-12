@@ -38,7 +38,8 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> findAll(){
         return repository.findAll().stream().map(
                 p -> {
-                    Double taxePrice = p.getPrice()* configuracion.getProperty("taxeValue", Double.class);
+                    System.out.println(configuracion.getProperty("valores.price.taxeValue", Double.class));
+                    Double taxePrice = p.getPrice()* configuracion.getProperty("valores.price.taxeValue", Double.class);
                     //Product newProduct = new Product(p.getId(), p.getName(), taxePrice.longValue()); //Principio de inmutabilidad: se crea un nuevo objeto para no alterar el producto original
                     Product newProduct = (Product) p.clone();
                     newProduct.setPrice(taxePrice.longValue());
@@ -58,9 +59,9 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> findByName(String name){
         return repository.searchByName(name).stream()
                 .map(p->{
-                    Long price = p.getPrice() * configuracion.getProperty("taxeValue", Long.class);
+                    Double price = p.getPrice() * configuracion.getProperty("valores.price.taxeValue", Double.class);
                     Product newP = (Product) p.clone();
-                    newP.setPrice(price);
+                    newP.setPrice(price.longValue());
                     return newP;
                     }
                 ).collect(Collectors.toList());
