@@ -4,11 +4,14 @@ import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
 //import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//Por defecto los Service son de tipo singleton es decir una sola intancia para todas las requests
+@RequestScope //Con esta anotacion indicamos que ya no es singleton si no que su contexto es por request
 @Primary //Se usa para indicar que esta va a ser la implematacion de ProductRepository que se va a usar
 //@Component
 @Repository("productList") //Se cambia el @Component por @Repository. Entre parentesis colocamos el nombre para el repository si queremos

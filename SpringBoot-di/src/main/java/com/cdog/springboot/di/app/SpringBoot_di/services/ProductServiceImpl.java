@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 //@Component //Lo registramos en el contenedor de Spring para poder inyectarlo en otras clases
-@Service //Se marca como un servicio (Logica de negocio)
+@Service
 public class ProductServiceImpl implements ProductService{
 
     //private ProductRepositoryImpl repository = new ProductRepositoryImpl(); ya no lo instanciaremos si no que se inyectara automaticamente
     //@Autowired //Se inyecta automaticamente la implementacion de ProductRepository
     private ProductRepository repository;
 
-    public ProductServiceImpl(@Qualifier("productFoo") ProductRepository repository){
+    public ProductServiceImpl(@Qualifier("productList") ProductRepository repository){
         this.repository = repository;
     }
 
@@ -35,9 +35,11 @@ public class ProductServiceImpl implements ProductService{
                 p -> {
                     Double taxePrice = p.getPrice()*1.25d;
                     //Product newProduct = new Product(p.getId(), p.getName(), taxePrice.longValue()); //Principio de inmutabilidad: se crea un nuevo objeto para no alterar el producto original
-                    Product newProduct = (Product) p.clone();
-                    newProduct.setPrice(taxePrice.longValue());
-                    return newProduct;
+//                    Product newProduct = (Product) p.clone();
+//                    newProduct.setPrice(taxePrice.longValue());
+                    p.setPrice(taxePrice.longValue());
+                    return p;
+//                    return newProduct;
                 }
                 ).collect(Collectors.toList());
     }
