@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Primary //Se usa para indicar que esta va a ser la implematacion de ProductRepository que se va a usar
 //@Component
-@Repository //Se cambia el @Component por @Repository
+@Repository("productList") //Se cambia el @Component por @Repository. Entre parentesis colocamos el nombre para el repository si queremos
 public class ProductRepositoryImpl implements ProductRepository{
 
     private List<Product> data;

@@ -1,6 +1,8 @@
 package com.cdog.springboot.di.app.SpringBoot_di.repositories;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
+
+import org.springframework.context.annotation.Primary;
 //import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +10,8 @@ import java.util.Collections;
 import java.util.List;
 
 
-@Repository
+
+@Repository("productFoo")
 public class ProductRepositoryFoo implements ProductRepository{
 
     @Override

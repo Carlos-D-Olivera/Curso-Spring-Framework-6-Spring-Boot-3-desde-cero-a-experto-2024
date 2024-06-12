@@ -2,8 +2,9 @@ package com.cdog.springboot.di.app.SpringBoot_di.services;
 
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
 import com.cdog.springboot.di.app.SpringBoot_di.repositories.ProductRepository;
-import com.cdog.springboot.di.app.SpringBoot_di.repositories.ProductRepositoryImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+// import com.cdog.springboot.di.app.SpringBoot_di.repositories.ProductRepositoryImpl;
+// import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 //import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class ProductServiceImpl implements ProductService{
     //@Autowired //Se inyecta automaticamente la implementacion de ProductRepository
     private ProductRepository repository;
 
-    public ProductServiceImpl(ProductRepository repository){
+    public ProductServiceImpl(@Qualifier("productFoo") ProductRepository repository){
         this.repository = repository;
     }
 
