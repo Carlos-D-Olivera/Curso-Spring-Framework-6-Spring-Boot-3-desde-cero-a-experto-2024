@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Playstation 5",
+    "price": 5000000
+  },
+  {
+    "id": 2,
+    "name": "Abrigo navy largo",
+    "price": 4000000
+  },
+  {
+    "id": 3,
+    "name": "Horno microondas",
+    "price": 225000
+  },
+  {
+    "id": 4,
+    "name": "Motherboard Gigabyte",
+    "price": 612500
+  },
+  {
+    "id": 5,
+    "name": "Redmi note 12 128GB",
+    "price": 930000
+  },
+  {
+    "id": 6,
+    "name": "xd",
+    "price": 930000
+  }
+]
