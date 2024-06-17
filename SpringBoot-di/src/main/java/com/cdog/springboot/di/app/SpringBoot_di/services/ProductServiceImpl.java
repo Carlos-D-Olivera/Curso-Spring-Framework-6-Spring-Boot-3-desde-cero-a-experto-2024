@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
     @Autowired //Inyectamos el objeto Environment para obtener las configuraciones
     private Environment configuracion;
 
-    public ProductServiceImpl( ProductRepository repository){
+    public ProductServiceImpl(@Qualifier("json") ProductRepository repository){
         this.repository = repository;
     }
 

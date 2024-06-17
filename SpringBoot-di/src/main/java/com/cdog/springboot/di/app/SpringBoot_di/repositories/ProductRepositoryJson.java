@@ -3,6 +3,7 @@ package com.cdog.springboot.di.app.SpringBoot_di.repositories;
 import com.cdog.springboot.di.app.SpringBoot_di.models.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -15,6 +16,15 @@ public class ProductRepositoryJson implements ProductRepository{
 
     public ProductRepositoryJson(){
         ClassPathResource resource = new ClassPathResource("json/product.json"); //Obtenemos el archivo Json
+        readValueJson(resource);
+    }
+
+    public ProductRepositoryJson(Resource resource){
+        readValueJson(resource);
+    }
+
+    private void readValueJson(Resource resource){
+        //ClassPathResource resource = new ClassPathResource("json/product.json"); //Obtenemos el archivo Json
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             list = Arrays.asList(objectMapper.readValue(resource.getFile(), Product[].class)); //Leemos los valores del archivo y lo convertimos a una lista de Productos

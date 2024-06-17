@@ -38,7 +38,7 @@ public class ProductRepositoryImpl implements ProductRepository{
 
     @Override
     public Product findById(Long id){
-        return this.data.stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+        return this.data.stream().peek(System.out::println).filter(p -> p.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override
