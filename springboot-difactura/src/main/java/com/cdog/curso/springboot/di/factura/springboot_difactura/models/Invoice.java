@@ -1,5 +1,6 @@
 package com.cdog.curso.springboot.di.factura.springboot_difactura.models;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,19 @@ public class Invoice {
     @Autowired
     @Qualifier("default")
     private List<Item> items;
+
+    public Invoice(){
+        System.out.println("Creando el componente de la factura");
+        System.out.println(this.client);
+        System.out.println(this.description);
+    }
+
+    @PostConstruct //@PostConstruct: esta anotacion sirve para ejecutar un metodo despues de instanciar el objeto
+    public void init(){
+        System.out.println("Creando el componente de la factura");
+        this.client.setName(this.client.getName().concat(" Pepe"));
+        this.setDescription(description.concat(" del Cliente: ").concat(client.getName()).concat(" ").concat(client.getLastname()));
+    }
 
     public Client getClient() {
         return client;
