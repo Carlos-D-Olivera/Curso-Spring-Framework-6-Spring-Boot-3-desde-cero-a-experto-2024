@@ -1,14 +1,19 @@
 package com.cdog.curso.springboot.di.factura.springboot_difactura.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.List;
 
 @Component //Anotamos la factura como componente
+@RequestScope //El contexto de cada Invoice sera la Request
+@JsonIgnoreProperties({"targetSource", "advisors"})
 public class Invoice {
 
     @Autowired //Inyectamos el cliente automaticamente ya que este esta anotado como component
@@ -35,6 +40,10 @@ public class Invoice {
         this.setDescription(description.concat(" del Cliente: ").concat(client.getName()).concat(" ").concat(client.getLastname()));
     }
 
+    @PreDestroy //Llama el metodo antes de finalizar o destruir el bean
+    public void destroy(){
+        System.out.println("Destruyendo el componente o bean Invoice");
+    }
     public Client getClient() {
         return client;
     }
