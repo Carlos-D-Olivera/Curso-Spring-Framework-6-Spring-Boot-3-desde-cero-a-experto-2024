@@ -9,8 +9,8 @@
 
     <style>
         body{
-            background-color: black;
-            color: whitesmoke;
+            background-color: white;
+            color: black;
             font-family: 'Courier New', Courier, monospace;
         }
         .botoncito{
@@ -18,7 +18,7 @@
             border-radius: 0.5em;
             padding: 2px;
             margin-top: 25px;
-            border: solid 1px white;
+            border: solid 1px cyan;
             text-decoration: none;
         }
         .botoncito:hover{
@@ -26,6 +26,7 @@
             border: none;
         }
     </style>
+    <link  th:href="@{/css/bootstrap.css}" rel="stylesheet">
 </head>
 <body>
     <h1 th:text="${title}">Titulo</h1>
@@ -35,7 +36,7 @@
         <li th:text="${user.lastname}">Apellido</li>
         <li th:text="${user.age}">Edad</li>
         <li th:if="${user.email != null}" th:text="${user.email}">Email</li>
-        <li th:if="${not (user.email != null)}" th:text="${'No tiene email'}}"></li>
+        <li th:if="${not (user.email != null)}" th:text="${'No tiene email'}"></li>
     </ul>
 
     <table th:if="${not users.isEmpty()}" class="table table-striped" style="width: 70%; border: 1px solid white">
@@ -46,14 +47,14 @@
             <th>Age</th>
             <th>Email</th>
         </tr>
-        </thead>s
+        </thead>
         <tbody>
         <tr th:each="user: ${users}" >
-            <td th:text="${user.name}" style="border: 1px solid white"></td>
-            <td th:text="${user.lastname}" style="border: 1px solid white"></td>
-            <td th:text="${user.age}" style="border: 1px solid white"></td>
-            <td th:if="${user.email != null}" th:text="${user.email}" style="border: 1px solid white"></td>
-            <td th:if="${user.email == null}" th:text="${'Sin email'}" style="color:red; border: 1px solid white"></td>
+            <td th:text="${user.name}" style="border: 1px solid cyan"></td>
+            <td th:text="${user.lastname}" style="border: 1px solid cyan"></td>
+            <td th:text="${user.age}" style="border: 1px solid cyan"></td>
+            <td th:if="${user.email != null}" th:text="${user.email}" style="border: 1px solid cyan"></td>
+            <td th:if="${user.email == null}" th:text="${'Sin email'}" style="color:red; border: 1px solid cyan"></td>
         </tr>
         </tbody>
     </table>
@@ -62,6 +63,7 @@
     <a class="botoncito" th:href="@{'/api/params/foo?mensaje='+${title}}">Ver mensaje</a>
     <a class="botoncito" th:href="@{/api/params/foo(mensaje='Hola cocacola')}">Ver mensaje 2</a>
     <a class="botoncito" th:href="@{/api/params/bar(text='Varios parametros',code=4422)}">Mensaje varios</a>
-
+    <a class="botoncito" th:href="@{/logout}">Logout</a>
+    <script src="js/bootstrap.js"></script>
 </body>
 </html>

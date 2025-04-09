@@ -25,6 +25,8 @@ public class CarritoController {
         return carritoService.listarItems();
     }
 
+
+
     @DeleteMapping("/delete/{id}")
     public List<Object> borrarProducto(@PathVariable Long id){
 
@@ -32,5 +34,14 @@ public class CarritoController {
 
         return carritoService.listarItems();
     }
+
+    @PostMapping("/find/{id}")
+    public List<Object> buscarProducto(@PathVariable Long id){
+
+        carritoService.buscarItem(id);
+
+        return carritoService.buscarItem(id);
+    }
+
 
 }

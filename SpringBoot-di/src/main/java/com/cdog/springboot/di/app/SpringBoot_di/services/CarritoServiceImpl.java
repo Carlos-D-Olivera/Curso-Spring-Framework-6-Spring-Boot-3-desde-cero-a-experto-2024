@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SessionScope //El carrito sera individual por cada sesion
 @Primary
@@ -25,6 +25,21 @@ public class CarritoServiceImpl implements CarritoService{
         Product newProduct = (Product) item;
         this.listadoProductos.add(newProduct);
     }
+
+    @Override
+    public List<Object> buscarItem(Long id) {
+
+        System.out.println(id);
+
+        this.listadoProductos = listadoProductos.stream()
+                .filter(p -> p.getId() == id)
+                .toList();
+
+        return Arrays.asList(this.listadoProductos.stream()
+                .filter(p -> p.getId() == id)
+                .toArray());
+    }
+
 
     @Override
     public List<Object> eliminarItem(Long id) {
