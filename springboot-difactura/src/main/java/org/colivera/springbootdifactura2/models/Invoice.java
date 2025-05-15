@@ -40,4 +40,25 @@ public class Invoice {
     public void setItems(List<Item> items) {
         this.items = items;
     }
+
+    public int getTotal(){
+//        int total = 0;
+
+//        for(Item item : items){
+//            total += item.getImporte();
+//        }
+        /*
+
+            Primero iteramos la lista de items
+            pero cada vez que tomamos un item
+            vamos a tomar su importe y asi con el
+            .map tenemos una lista/flujo de los
+            precios luego con reduce los sumamos
+
+         */
+        int total = items.stream()
+                .map(item -> item.getImporte())
+                .reduce(0, (sum, importe) -> sum + importe);
+        return total;
+    }
 }
