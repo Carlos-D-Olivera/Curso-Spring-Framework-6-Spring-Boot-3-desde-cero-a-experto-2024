@@ -1,5 +1,6 @@
 package org.colivera.springbootdifactura2.controllers;
 
+import org.colivera.springbootdifactura2.models.Client;
 import org.colivera.springbootdifactura2.models.Invoice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,13 @@ public class InvoiceController {
 
     @GetMapping("/show")
     public Invoice show(){
-        return invoice;
+        Invoice i = new Invoice();
+        Client c = new Client();
+        c.setLastName(invoice.getCliente().getLastName());
+        c.setName(invoice.getCliente().getName());
+        i.setCliente(c);
+        i.setDescription(invoice.getDescription());
+        i.setItems(invoice.getItems());
+        return i;
     }
 }
