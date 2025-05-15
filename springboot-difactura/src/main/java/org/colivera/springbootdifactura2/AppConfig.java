@@ -15,7 +15,7 @@ import java.util.List;
 public class AppConfig {
 
     //Creamos un componente de manera manual (Bean) para una lista de Items
-    @Bean("default")
+    @Bean
     List<Item> itemsInvoice(){
 
         Product p1 = new Product("LENOVO PC GAME LOQ i5 8gb RAM", 3400000);
@@ -30,7 +30,7 @@ public class AppConfig {
 
     }
 
-    @Bean
+    @Bean("default")
     List<Item> itemsInvoiceOficina(){
 
         Product p1 = new Product("Monitor Asus 24'", 3400000);

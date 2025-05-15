@@ -1,5 +1,6 @@
 package org.colivera.springbootdifactura2.models;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,20 @@ public class Invoice {
     @Autowired
     @Qualifier("default")
     private List<Item> items;
+
+
+    public Invoice(){
+        System.out.println("Creando el componente de la factura");
+        System.out.println(cliente);
+        System.out.println(description);
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Creando el componente de la factura");
+        cliente.setName(cliente.getName().concat(" Pepe"));
+        description = description.concat(" del cliente: ").concat(cliente.getName()).concat(" ").concat(cliente.getLastName());
+    }
 
     public Client getCliente() {
         return cliente;
