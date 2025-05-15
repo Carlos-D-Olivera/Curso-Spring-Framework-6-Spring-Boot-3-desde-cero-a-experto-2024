@@ -1,6 +1,7 @@
 package org.colivera.springbootdifactura2.models;
 
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,11 +28,16 @@ public class Invoice {
         System.out.println(description);
     }
 
-    @PostConstruct
+    @PostConstruct //Se ejecuta luego de crearse la instancia Invoice
     public void init() {
         System.out.println("Creando el componente de la factura");
         cliente.setName(cliente.getName().concat(" Pepe"));
         description = description.concat(" del cliente: ").concat(cliente.getName()).concat(" ").concat(cliente.getLastName());
+    }
+
+    @PreDestroy //Se ejecuta antes de finalizar o desctruir el bean
+    public void destroy(){
+        System.out.println("Destruyendo el componente o bean Invoice");
     }
 
     public Client getCliente() {
