@@ -8,7 +8,8 @@ public class AppController {
 
     @GetMapping("/app")
     public String index(){
-        int value = 100 / 0; //Lanzamos un error a proposito
+//        int value = 100 / 0; //Lanzamos un error a proposito
+        int value = Integer.parseInt("10x"); //Lanzamos un error numberFormatException a proposito
         return "ok 200";
     }
 }
