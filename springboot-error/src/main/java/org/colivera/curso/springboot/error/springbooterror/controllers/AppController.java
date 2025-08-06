@@ -4,10 +4,13 @@ import org.colivera.curso.springboot.error.springbooterror.domain.User;
 import org.colivera.curso.springboot.error.springbooterror.exceptions.UserNotFoundException;
 import org.colivera.curso.springboot.error.springbooterror.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/app")
@@ -25,12 +28,17 @@ public class AppController {
 
     @GetMapping("/show/{id}")
     public User show(@PathVariable(name = "id") Long id){
-        User user = service.findById(id);
+        User user = service.findById(id)
+                .orElseThrow(()-> new UserNotFoundException("El usuario no existe"));
 
-        if(user == null){
-            throw new UserNotFoundException("Error el usuario no existe compa!");
-        }
-        System.out.println(user.getLastName());
+//        if(user == null){
+//            throw new UserNotFoundException("Error el usuario no existe compa!");
+//        }
+
+//        System.out.println(user.getLastName());
+//        return user;
+
         return user;
     }
+
 }

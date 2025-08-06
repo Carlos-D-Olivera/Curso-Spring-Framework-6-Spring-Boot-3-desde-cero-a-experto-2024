@@ -1,41 +1,41 @@
 package org.colivera.curso.springboot.error.springbooterror.services;
 
 import org.colivera.curso.springboot.error.springbooterror.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IUserService{
 
+    @Autowired
     private List<User> users;
-
-    public UserServiceImpl(){
-        this.users = new ArrayList<>();
-        this.users.add(new User(1L, "Carlos", "Olivera"));
-        this.users.add(new User(2L, "David", "Guzman"));
-        this.users.add(new User(3L, "Maria", "Perez"));
-        this.users.add(new User(4L, "Josefa", "Martinez"));
-        this.users.add(new User(5L, "Ale", "Gutierrez"));
-
-    }
 
     @Override
     public List<User> findAll() {
-        return List.of();
+        return users;
     }
 
     @Override
-    public User findById(Long id) {
-        User user = null;
+    public Optional<User> findById(Long id) {
+//        User user = null;
+//
+//        for(User u : this.users){
+//            if(u.getId().equals(id)){
+//                user = u;
+//                break;
+//            }
+//        }
 
-        for(User u : this.users){
-            if(u.getId().equals(id)){
-                user = u;
-                break;
-            }
-        }
+        //Se Optimiza
+        Optional<User> user = this.users.stream()
+                .filter( //Agregamos un filtro
+                        u -> u.getId().equals(id) //Filtramos usuarios que tengan el mismo Id
+                )
+                .findFirst(); //Se toma el primero que encuentre
 
         return user;
     }
