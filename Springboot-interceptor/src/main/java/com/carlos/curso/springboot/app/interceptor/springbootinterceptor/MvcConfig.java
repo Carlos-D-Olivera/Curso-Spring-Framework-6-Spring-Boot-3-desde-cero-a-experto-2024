@@ -16,6 +16,15 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(timeInterceptor);
+        //registry.addInterceptor(timeInterceptor); //Para todos los controladores
+
+        //Podemos especificar cuales van a ser los controladores
+        registry.addInterceptor(timeInterceptor).addPathPatterns("/app/bar", "/app/foo");
+
+        //o podemos excluir
+        //registry.addInterceptor(timeInterceptor).excludePathPatterns("/app/bar", "/app/foo");
+
+        //Tambien podemos espeficar todos los enpoints de una ruta
+        //registry.addInterceptor(timeInterceptor).addPathPatterns("/app/**"); //Todos los metodos de la ruta app
     }
 }
