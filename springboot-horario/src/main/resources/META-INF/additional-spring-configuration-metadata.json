@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "config.calendar.open",
+      "type": "java.lang.String",
+      "description": "Hora de apertura."
+  },
+  {
+    "name": "config.calendar.close",
+    "type": "java.lang.String",
+    "description": "Hora de cierre."
+  }
+] }
