@@ -16,13 +16,20 @@ import java.util.Arrays;
 public class GreetingAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+
+    //@Pointcut: Sirve para almacenar una expresion PointCut y asi hacer mas sencillo el codigo a la hora de declarar
+    // advices
+//    @Pointcut("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+//    private void greetingLoggerPointCut(){}
+
     //106.
     //Dentro del @Before se debe colocar el poinCut osea el/los metodos a interceptar
     //Tambien hay que colocar el valor que devuelve el metodo/poincut, tambien puede ser *
     //@Before("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingServiceImpl.sayHello(..))")
-    @Before("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    //@Before("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
     //@Before("execution(* com.carlos.curso.springboot.app.aop.springbootaop..*.*(..))")
     //@Before("execution(* *.*(..))")
+    @Before("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerBefore(JoinPoint joinPoint){
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
@@ -30,7 +37,8 @@ public class GreetingAspect {
     }
 
 
-    @After("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    //@After("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @After("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfter(JoinPoint joinPoint){
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
@@ -39,7 +47,8 @@ public class GreetingAspect {
 
 
     //Despues de retornar si no ocurre algun error
-    @AfterReturning("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    //@AfterReturning("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @AfterReturning("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterReturning(JoinPoint joinPoint){
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
@@ -47,7 +56,8 @@ public class GreetingAspect {
     }
 
     //Despues de que ocurra algun error
-    @AfterThrowing("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    //@AfterThrowing("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.GreetingService.*(..))")
+    @AfterThrowing("GreetingServicePointcuts.greetingLoggerPointCut()")
     public void loggerAfterThrowing(JoinPoint joinPoint){
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
@@ -56,7 +66,8 @@ public class GreetingAspect {
 
 
     //Se usa ProceedingJoinPoint en vez de JoinPoint ya que around intercepta el metodo en procedimiento, envuelve la ejecucion
-    @Around("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.*.*(..))")
+    //@Around("execution(String com.carlos.curso.springboot.app.aop.springbootaop.services.*.*(..))")
+    @Around("GreetingServicePointcuts.greetingLoggerPointCut()")
     public Object LoggerAround(ProceedingJoinPoint joinPoint) throws Throwable{
         String method = joinPoint.getSignature().getName();
         String args = Arrays.toString(joinPoint.getArgs());
