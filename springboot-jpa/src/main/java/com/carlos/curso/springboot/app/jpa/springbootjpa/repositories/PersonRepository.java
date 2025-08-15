@@ -7,11 +7,21 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
 //Agregamos extends CrudRepository<Person, Long> para asi tener los metodos crud
 public interface PersonRepository extends CrudRepository<Person, Long> {
+
+    @Query("SELECT p FROM Person p where p.id=?1")
+    Optional<Person> findOne(Long id);
+
+    @Query("SELECT p FROM Person p where p.name=?1")
+    Optional<Person> findOneName(String name);
+
+    @Query("SELECT p FROM Person p where p.name LIKE %?1%")
+    Optional<Person> findOneLikeName(String name);
 
     List<Person> findByProgrammingLanguage(String programingLanguage);
 

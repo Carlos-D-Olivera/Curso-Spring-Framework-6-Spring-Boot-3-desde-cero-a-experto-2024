@@ -24,13 +24,19 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        findOne();
+        findOne2();
+    }
+
+
+    public void create(){
+        Person person = new Person(null, "Lalo", )
     }
 
 
     public void findOne(){
         Person person = null;
-        Optional<Person> optionalPerson = repository.findById(8L);
+        //Optional<Person> optionalPerson = repository.findById(1L);
+        Optional<Person> optionalPerson = repository.findOne(1L);
         //Person person = repository.findById(1L).orElseThrow();
         if(optionalPerson.isPresent()){
             person = optionalPerson.get();
@@ -40,7 +46,9 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     public void findOne2(){
         //repository.findById(1L).ifPresent(person -> System.out.println(person));
-        repository.findById(1L).ifPresent(System.out::println);
+        //repository.findById(1L).ifPresent(System.out::println);
+        repository.findOne(1L).ifPresent(System.out::println);
+        repository.findOneLikeName("ri").ifPresent(System.out::println);
     }
 
 
