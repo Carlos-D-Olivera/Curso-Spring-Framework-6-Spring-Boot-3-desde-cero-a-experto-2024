@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 //Como no vamos a trabajar con web debemos implementar CommandLineRunner implements CommandLineRunner
 @SpringBootApplication
@@ -23,13 +24,23 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        list();
+        findOne();
     }
 
 
     public void findOne(){
-        Person person = repository.findById(1L).orElseThrow();
+        Person person = null;
+        Optional<Person> optionalPerson = repository.findById(8L);
+        //Person person = repository.findById(1L).orElseThrow();
+        if(optionalPerson.isPresent()){
+            person = optionalPerson.get();
+        }
         System.out.println(person);
+    }
+
+    public void findOne2(){
+        //repository.findById(1L).ifPresent(person -> System.out.println(person));
+        repository.findById(1L).ifPresent(System.out::println);
     }
 
 
