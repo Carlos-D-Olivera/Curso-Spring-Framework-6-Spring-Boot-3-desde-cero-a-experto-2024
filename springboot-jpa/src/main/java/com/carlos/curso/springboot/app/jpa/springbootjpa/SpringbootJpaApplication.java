@@ -27,8 +27,52 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        delete();
+        personalizedQueries2();
+    }
 
+    @Transactional(readOnly = true)
+    public void personalizedQueries2(){
+
+        System.out.println("==============Consulta por objeto persona y lenguaje de programacion ================");
+        List<Object[]> personRegs = repository.findAllMixPerson();
+
+        personRegs.forEach(reg->{
+            System.out.println("programmingLanguage=" + reg[1] + ", person "+reg[0]);
+        });
+
+        System.out.println("==============Consulta que puebla y devuelve objeto entity de una instancia personalizada ================");
+        List<Person> persons = repository.finAllObjectPersonalized();
+        persons.forEach(System.out::println);
+
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueries(){
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("==============Consulta solo el nombre por el id================");
+
+        System.out.print("Digite el id para obtener el nombre: ");
+        Long id = scanner.nextLong();
+
+        String name = repository.getNameById(id);
+        System.out.println(name);
+
+        String fullName = repository.getFullNameById(id);
+        System.out.println(fullName);
+
+        String programmingLanguage = repository.getProgrammingLanguageById(id);
+        System.out.println(programmingLanguage);
+
+        System.out.println("==============Consulta por campos personalizados================");
+        Object[] personReg = (Object[]) repository.obtenerPersonDataById(id);
+        System.out.println("id = "+personReg[0]+", nombre = "+personReg[1]+", apellido = "+personReg[2]+", lenguaje de programacion = "+personReg[3]);
+
+
+        System.out.println("==============Consulta por campos personalizados lista ================");
+        List<Object[]> regs = repository.obtenerPersonDataList();
+        regs.forEach(reg -> System.out.println("id = "+reg[0]+", nombre = "+reg[1]+", apellido = "+reg[2]+", lenguaje de programacion = "+reg[3]));
     }
 
 
