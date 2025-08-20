@@ -24,12 +24,16 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        findOne2();
+        create();
     }
 
 
     public void create(){
-        Person person = new Person(null, "Lalo", )
+        Person person = new Person(null, "Lalo", "Thor", "Python");
+
+        Person personNew = repository.save(person); //Si el id  es null lo inserta si no hace un update
+
+        System.out.println(personNew);
     }
 
 
