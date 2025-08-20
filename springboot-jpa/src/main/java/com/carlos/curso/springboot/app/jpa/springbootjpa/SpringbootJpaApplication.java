@@ -2,14 +2,17 @@ package com.carlos.curso.springboot.app.jpa.springbootjpa;
 
 import com.carlos.curso.springboot.app.jpa.springbootjpa.entities.Person;
 import com.carlos.curso.springboot.app.jpa.springbootjpa.repositories.PersonRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 //Como no vamos a trabajar con web debemos implementar CommandLineRunner implements CommandLineRunner
 @SpringBootApplication
@@ -24,19 +27,100 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        create();
+        delete();
+
     }
 
 
+    @Transactional
+    public void delete(){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el id de la persona a editar: ");
+        Long id = scanner.nextLong();
+
+        Optional<Person> optionalPerson = repository.findById(id);
+
+        optionalPerson.ifPresentOrElse(repository::delete,
+            ()->System.out.println("No existe la persona con ese id")
+        );
+
+        repository.findAll().forEach(System.out::println);
+    }
+
+    @Transactional
+    public void update(){
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Ingrese el id de la persona a editar: ");
+        Long id = scanner.nextLong();
+
+        //Obtenemos una persona para actualizarla
+        Optional<Person> personOptional = repository.findById(id);
+
+        /*personOptional.ifPresent(
+                person -> {
+
+                    System.out.println(person);
+
+                    System.out.print("Ingrese el lenguaje de programacion:");
+                    String programmingLanguage = scanner.next();
+
+                    person.setProgrammingLanguage(programmingLanguage);
+
+                    Person personUpdate = repository.save(person);
+
+                    System.out.println(personUpdate);
+                }
+        );*/
+
+        if(personOptional.isPresent()){
+
+            Person personUpdate = personOptional.orElseThrow();
+            System.out.println(personUpdate);
+
+            System.out.print("Ingrese el lenguaje de programacion:");
+            String programmingLanguage = scanner.next();
+
+            personUpdate.setProgrammingLanguage(programmingLanguage);
+
+            repository.save(personUpdate);
+
+        }else {
+            System.out.println("No se encontro la persona a editar");
+        }
+
+        scanner.close();
+    }
+
+
+    @Transactional
     public void create(){
-        Person person = new Person(null, "Lalo", "Thor", "Python");
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Digite el nombre: ");
+        String name = scanner.nextLine().trim();
+
+        System.out.print("Digite el apellido: ");
+        String lastname = scanner.nextLine().trim();
+
+        System.out.print("Digite el lenguaje de progracion: ");
+        String programmingLanguage = scanner.nextLine().trim();
+
+        scanner.close();
+
+        //Person person = new Person(null, "Lalo", "Thor", "Python");
+        Person person = new Person(null, name, lastname, programmingLanguage);
 
         Person personNew = repository.save(person); //Si el id  es null lo inserta si no hace un update
 
         System.out.println(personNew);
+
+        repository.findById(personNew.getId()).ifPresent(System.out::println);
     }
 
 
+    @Transactional(readOnly = true) //Se crea un transaccion de solo lectura, si todo sale bien se hace el commit
     public void findOne(){
         Person person = null;
         //Optional<Person> optionalPerson = repository.findById(1L);
@@ -48,6 +132,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
         System.out.println(person);
     }
 
+    @Transactional(readOnly = true) //Se crea un transaccion de solo lectura, si todo sale bien se hace el commit
     public void findOne2(){
         //repository.findById(1L).ifPresent(person -> System.out.println(person));
         //repository.findById(1L).ifPresent(System.out::println);
@@ -56,6 +141,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
     }
 
 
+    @Transactional(readOnly = true) //Se crea un transaccion de solo lectura, si todo sale bien se hace el commit
     public void list(){
         String lenguaje = "Java";
         String palabra1 = "a";
