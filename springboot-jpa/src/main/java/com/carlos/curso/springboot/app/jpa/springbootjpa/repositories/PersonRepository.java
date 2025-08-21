@@ -1,18 +1,33 @@
 package com.carlos.curso.springboot.app.jpa.springbootjpa.repositories;
 
 
+import com.carlos.curso.springboot.app.jpa.springbootjpa.dto.PersonDto;
 import com.carlos.curso.springboot.app.jpa.springbootjpa.entities.Person;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 
 //Agregamos extends CrudRepository<Person, Long> para asi tener los metodos crud
 public interface PersonRepository extends CrudRepository<Person, Long> {
+
+    @Query("select p.name from Person p")
+    List<String> findAllNames();
+
+
+    @Query("select distinct(p.name) from Person p")
+    List<String> findAllNamesDistinct();
+
+    @Query("select distinct(p.programmingLanguage) from Person p")
+    List<String> findAllProgrammingLanguageDistinct();
+
+    @Query("select count(distinct(p.programmingLanguage)) from Person p")
+    Long findAllProgrammingLanguageDistinctCount();
+
+    @Query("select new com.carlos.curso.springboot.app.jpa.springbootjpa.dto.PersonDto(p.name, p.lastname) from Person p")
+    List<PersonDto> finAllPersonDto();
 
     @Query("select new Person(p.name, p.lastname) from Person p")
     List<Person> finAllObjectPersonalized();
@@ -39,8 +54,8 @@ public interface PersonRepository extends CrudRepository<Person, Long> {
     Optional<Person> findOneLikeName(String name);
 
     List<Person> findByProgrammingLanguage(String programingLanguage);
-
     //Con @Query podemos definir consultas personalizadas o especificas
+
     @Query("select p from Person p where p.programmingLanguage=?1 and p.name=?2")
     List<Person> buscarByProgrammingLanguageYNombre (String programingLanguage, String name);
 

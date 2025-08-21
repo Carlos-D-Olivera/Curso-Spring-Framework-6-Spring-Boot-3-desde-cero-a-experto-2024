@@ -1,5 +1,6 @@
 package com.carlos.curso.springboot.app.jpa.springbootjpa;
 
+import com.carlos.curso.springboot.app.jpa.springbootjpa.dto.PersonDto;
 import com.carlos.curso.springboot.app.jpa.springbootjpa.entities.Person;
 import com.carlos.curso.springboot.app.jpa.springbootjpa.repositories.PersonRepository;
 
@@ -27,7 +28,27 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        personalizedQueries2();
+        personalizedQueriesDistinct();
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesDistinct(){
+        System.out.println("==============consultas con nombres de personas==============");
+        List<String> names = repository.findAllNames();
+        names.forEach(System.out::println);
+
+
+        System.out.println("==============consultas con nombres Unicos de personas==============");
+        names = repository.findAllNamesDistinct();
+        names.forEach(System.out::println);
+
+        System.out.println("==============consultas con lenguajes de programacion Unicos de personas==============");
+        names = repository.findAllProgrammingLanguageDistinct();
+        names.forEach(System.out::println);
+
+        System.out.println("==============consultas con total lenguajes de programacion Unicos de personas==============");
+        Long totalLanguages = repository.findAllProgrammingLanguageDistinctCount();
+        System.out.println("Total de lenguajes de programacion: "+totalLanguages);
     }
 
     @Transactional(readOnly = true)
@@ -43,6 +64,10 @@ public class SpringbootJpaApplication implements CommandLineRunner {
         System.out.println("==============Consulta que puebla y devuelve objeto entity de una instancia personalizada ================");
         List<Person> persons = repository.finAllObjectPersonalized();
         persons.forEach(System.out::println);
+
+        System.out.println("==============Consulta que puebla y devuelve objeto DTO de una instancia personalizada ================");
+        List<PersonDto> personsDto = repository.finAllPersonDto();
+        personsDto.forEach(System.out::println);
 
     }
 
@@ -84,7 +109,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
         Optional<Person> optionalPerson = repository.findById(id);
 
-        optionalPerson.ifPresentOrElse(repository::delete,
+        optionalPerson.ifPresentOrElse( repository::delete,
             ()->System.out.println("No existe la persona con ese id")
         );
 
