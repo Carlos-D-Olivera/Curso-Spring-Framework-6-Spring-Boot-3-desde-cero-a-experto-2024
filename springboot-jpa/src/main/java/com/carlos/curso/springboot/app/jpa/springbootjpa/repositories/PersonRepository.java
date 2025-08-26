@@ -13,6 +13,19 @@ import java.util.Optional;
 //Agregamos extends CrudRepository<Person, Long> para asi tener los metodos crud
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    @Query("SELECT p.id, upper(p.name), lower(p.lastname), upper(p.programmingLanguage) from Person p")
+    List<Object[]> findAllPersonDataListCase();
+
+    @Query("SELECT p.name || ' ' || p.lastname as fullname from Person p")
+    List<String> findAllFullNameConcat();
+    //@Query("SELECT CONCAT(p.name, ' ', p.lastname) as fullname from Person p")
+
+    @Query("SELECT upper(p.name || ' ' || p.lastname) as fullname from Person p")
+    List<String> findAllFullNameConcatUpper();
+
+    @Query("SELECT lower(p.name || ' ' || p.lastname) as fullname from Person p")
+    List<String> findAllFullNameConcatLower();
+
     @Query("select p.name from Person p")
     List<String> findAllNames();
 
