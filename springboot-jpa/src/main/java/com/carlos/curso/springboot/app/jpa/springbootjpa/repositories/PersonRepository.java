@@ -13,6 +13,45 @@ import java.util.Optional;
 //Agregamos extends CrudRepository<Person, Long> para asi tener los metodos crud
 public interface PersonRepository extends CrudRepository<Person, Long> {
 
+    @Query("select p.name, length(p.name) from Person p where length(p.name)=(select min(length(p.name)) from Person p)")
+    public List<Object[]>  getShorterName();
+
+    @Query("select min(p.id), max(p.id), sum(p.id), avg(len(p.name)), count(p.id) from Person p")
+    public Object getResumeAggregation();
+
+    @Query("select max(len(p.name)) from Person p")
+    public Integer getMaxLengthName();
+
+
+    @Query("select min(len(p.name)) from Person p")
+    public Integer getMinLengthName();
+
+    @Query("select p.name, length(p.name) from Person p")
+    public List<Object[]> getPersonNameLength();
+
+    @Query("select count(p) from Person p")
+    Long totalPerson();
+
+    @Query("select min(p.id) from Person p")
+    Long minId();
+
+    @Query("select max(p.id) from Person p")
+    Long maxId();
+
+    List<Person> findByIdBetweenOrderByIdAsc(Long id1, Long id2);
+
+    List<Person> findByNameBetweenOrderByNameDescLastnameAsc(String name1, String name2);
+
+    List<Person> findByIdBetween(Long id1, Long id2);
+
+    List<Person> findByNameBetween(String name1, String name2);
+
+    @Query("select p from Person p where p.name between ?1 and ?2 order by p.name desc")
+    List<Person> findAllBetweenName(String c1, String c2);
+
+    @Query("select p from Person p where p.id between ?1 and ?2 order by p.name desc, p.lastname asc")
+    List<Person> findAllBetweenId(Long id1, Long id2);
+
     @Query("SELECT p.id, upper(p.name), lower(p.lastname), upper(p.programmingLanguage) from Person p")
     List<Object[]> findAllPersonDataListCase();
 

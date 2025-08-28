@@ -28,10 +28,47 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        personalizedQueriesConcatUpperAndLowerCase();
+        queriesFunctionAggregation();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public void subQueries(){
+
+    }
+
+    @Transactional(readOnly = true)
+    public void  queriesFunctionAggregation(){
+        System.out.println("============== consulta con el total de registros de la tabla persona ==============");
+        Long count = repository.totalPerson();
+        System.out.println("Cantidad de total de personas : "+count);
+        Long min = repository.minId();
+        System.out.println("Id minimo : "+min);
+        Long max = repository.maxId();
+        System.out.println("Id maximo : "+max);
+
+
+        System.out.println("consulta con el nombre y su largo");
+        List<Object[]> regs = repository.getPersonNameLength();
+        regs.forEach( reg -> {
+            String name = (String) reg[0];
+            Integer length = (Integer) reg[1];
+            System.out.println("name= "+name+", length=" + length);
+        });
+
+    }
+
+    @Transactional(readOnly = true)
+    public void personalizedQueriesBetween(){
+        System.out.println("==============consultas por rangos ==============");
+        List<Person> persons = this.repository.findByIdBetweenOrderByIdAsc(2L, 5L);
+        persons.forEach(System.out::println);
+
+        System.out.println("==============consultas por rangos nombre ==============");
+        persons = this.repository.findByNameBetweenOrderByNameDescLastnameAsc("J", "P");
+        persons.forEach(System.out::println);
+    }
+
+    @Transactional(readOnly = true)
     public void personalizedQueriesConcatUpperAndLowerCase(){
         System.out.println("==============consultas nombres y apellidos de personas==============");
         List<String> fullNames = repository.findAllFullNameConcat();
