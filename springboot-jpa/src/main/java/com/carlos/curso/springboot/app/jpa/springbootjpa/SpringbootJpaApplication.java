@@ -28,12 +28,14 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        queriesFunctionAggregation();
+        whereIn();
     }
 
     @Transactional(readOnly = true)
-    public void subQueries(){
-
+    public void whereIn(){
+        System.out.println("Consulta where in");
+        List<Person> persons = repository.getPersonByIds(Arrays.asList(1L, 2L, 4L, 5L));
+        persons.forEach(System.out::println);
     }
 
     @Transactional(readOnly = true)
@@ -54,6 +56,19 @@ public class SpringbootJpaApplication implements CommandLineRunner {
             Integer length = (Integer) reg[1];
             System.out.println("name= "+name+", length=" + length);
         });
+
+
+        System.out.println("consulta con el nombre mas corto: "+ repository.getMinLengthName());
+
+        System.out.println("consulta con el nombre mas largo: "+ repository.getMaxLengthName());
+
+        System.out.println("Consulta resumen de funciones de agregacion");
+        Object[] agregaciones = (Object[]) repository.getResumeAggregation();
+        System.out.println("MIN = "+agregaciones[0]+", MAX = "+agregaciones[1]+", SUM = "+agregaciones[2]+", AVG = "+agregaciones[3]+", COUNT = "+agregaciones[4]);
+
+        System.out.println("Consulta del ultimo registro de persona");
+        Optional<Person> optionalPerson = repository.getLastRegistration();
+        optionalPerson.ifPresent(System.out::println);
 
     }
 
