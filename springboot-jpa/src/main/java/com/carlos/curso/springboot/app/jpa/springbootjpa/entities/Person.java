@@ -2,6 +2,8 @@ package com.carlos.curso.springboot.app.jpa.springbootjpa.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity //Se anota con @Entity para indicar que es una clase de persistencia
@@ -18,6 +20,12 @@ public class Person {
     @Column(name = "programming_language")//Opcional: se usa cuando la columna tiene nombre diferente en la base de datos
     private String programmingLanguage;
 
+    @Column(name="updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
+
     public Person() {
     }
 
@@ -33,6 +41,35 @@ public class Person {
         this.programmingLanguage = programmingLanguage;
     }
 
+
+    //@PrePersist: Este metodo se ejecuta antes de que la identidad sea guardada en la base de datos
+    /*
+    * Útil para:
+        Actualizar campos como lastModifiedAt o updatedAt.
+
+        Aplicar validaciones o transformaciones antes de un UPDATE.
+    * */
+    @PrePersist
+    public void prePersist(){
+        System.out.println("Evento del ciclo de vida del entity pre-persist");
+        this.createdAt = LocalDateTime.now();
+    }
+
+
+    //@PreUpdate: Este metodo se ejecuta despues de actualizar la entidad en la base de datos
+    /*  Útil para:
+        Inicializar valores por defecto.
+
+        Asignar fechas de creación (createdAt).
+
+        Generar UUIDs, tokens, etc.     */
+    @PreUpdate
+    public void preUpdate(){
+        System.out.println("Evento del ciclo de vida del entity pre-update");
+        this.updatedAt = LocalDateTime.now();
+    }
+
+
     @Override
     public String toString() {
         return "Person{" +
@@ -40,6 +77,8 @@ public class Person {
                 ", name='" + name + '\'' +
                 ", lastName='" + lastname + '\'' +
                 ", programmingLanguage='" + programmingLanguage + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
                 '}';
     }
 

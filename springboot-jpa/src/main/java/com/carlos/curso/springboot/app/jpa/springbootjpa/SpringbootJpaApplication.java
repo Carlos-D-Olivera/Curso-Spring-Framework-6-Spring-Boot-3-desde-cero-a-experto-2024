@@ -28,7 +28,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        whereIn();
+        update();
     }
 
     @Transactional(readOnly = true)
@@ -226,6 +226,7 @@ public class SpringbootJpaApplication implements CommandLineRunner {
             personUpdate.setProgrammingLanguage(programmingLanguage);
 
             repository.save(personUpdate);
+            repository.findById(personUpdate.getId()).ifPresent(System.out::println);
 
         }else {
             System.out.println("No se encontro la persona a editar");
