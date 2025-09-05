@@ -1,5 +1,6 @@
 package com.carlos.curso.springboot.jpa.springbootjparelationships;
 
+import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Address;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Client;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Invoice;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.repositories.ClientRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,9 +28,26 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) throws Exception {
-        manyToOneFindByIdClient();
+        oneToMany();
     }
 
+
+    @Transactional
+    public void oneToMany(){
+        Client client = new Client("Fran", "Moras");
+
+        Address address1 = new Address("El vejel", 1234);
+        Address address2 = new Address("Vasco de Gama", 9875);
+
+        client.getAddresses().add(address1);
+        client.getAddresses().add(address2);
+
+        //Cuando guardamos el cliente se guardan automaticante las direcciones ya que la relacion esta en Cascade
+
+        clientRepository.save(client);
+    }
+
+    @Transactional
     public void manyToOne(){
 
         Client client = new Client("Jhon","Doe");
@@ -43,6 +62,7 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
         System.out.println(invoiceRepository.save(invoice));
     }
 
+    @Transactional
     public void manyToOneFindByIdClient(){
 
         Optional<Client> optionalClient = clientRepository.findById(1L);
@@ -55,7 +75,5 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
             System.out.println(invoiceRepository.save(invoice));
         }
-
-
     }
 }

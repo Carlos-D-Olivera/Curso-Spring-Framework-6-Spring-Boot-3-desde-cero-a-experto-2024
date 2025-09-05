@@ -14,7 +14,7 @@ public class Invoice {
     private Long total;
 
     @ManyToOne //Muchas facturas le pertenecen a un cliente
-    //@JoinColumn(name="idCliente") si queremos cambiar el nombre de la columna por default, si no se coloca client_id
+    @JoinColumn(name="id_client") //si queremos cambiar el nombre de la columna por default, si no se coloca client_id
     private Client client;
 
     @Embedded
