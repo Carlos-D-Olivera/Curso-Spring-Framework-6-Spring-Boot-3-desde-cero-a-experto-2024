@@ -5,12 +5,14 @@ import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Clien
 import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Invoice;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.repositories.ClientRepository;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.repositories.InvoiceRepository;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -28,7 +30,67 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) throws Exception {
-        oneToMany();
+        removeAddressFindByIdClient();
+    }
+
+    @Transactional
+    public void removeAddressFindByIdClient(){
+
+        Optional<Client> optionalClient = clientRepository.findById(2L);
+
+        optionalClient.ifPresent(client -> {
+            Address address1 = new Address("El verjel", 1234);
+            Address address2 = new Address("Vasco de Gama", 9875);
+
+            client.setAddresses(Arrays.asList(address1, address2));
+
+            System.out.println("\n--------------------------------------------------------------------------------");
+
+            Client clientSaved = clientRepository.save(client);
+            Address address2saved = clientSaved.getAddresses().stream()
+                    .filter(a -> a.getNumber().equals(address2.getNumber()))
+                    .findFirst().orElseThrow();
+
+            System.out.println("--------------------------------------------------------------------------------\n");
+
+            System.out.println(client);
+            System.out.println(address2);
+
+            Optional<Client> optionalClient2 = clientRepository.findById(2L);
+            optionalClient2.ifPresent(c->{
+                c.getAddresses().remove(address2saved);
+                clientRepository.save(c);
+                System.out.println(c);
+            });
+
+        });
+    }
+
+
+    @Transactional
+    public void removeAddress(){
+        Client client = new Client("Fran", "Moras");
+
+        Address address1 = new Address("El verjel", 1234);
+        Address address2 = new Address("Vasco de Gama", 9875);
+
+        client.getAddresses().add(address1);
+        client.getAddresses().add(address2);
+
+        //Cuando guardamos el cliente se guardan automaticante las direcciones ya que la relacion esta en Cascade
+
+        clientRepository.save(client);
+
+        System.out.println(address1);
+
+        System.out.println(client);
+
+        Optional<Client> optionalClient = clientRepository.findById(3L);
+        optionalClient.ifPresent(c -> {
+            c.getAddresses().remove(address1); //La eliminamos de la lista de direcciones
+            clientRepository.save(c); //Lo guardamos en la bd
+            System.out.println(c);
+        });
     }
 
 

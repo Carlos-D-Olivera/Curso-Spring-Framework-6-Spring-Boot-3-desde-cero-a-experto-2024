@@ -15,7 +15,12 @@ public class Client {
     private String name;
     private String lastName;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true) //Un cliente tiene muchas direcciones
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER) //Un cliente tiene muchas direcciones
+    @JoinTable(name = "tbl_clientes_to_direcciones"
+            ,joinColumns = @JoinColumn(name = "id_cliente")
+            ,inverseJoinColumns = @JoinColumn(name = "id_direcciones")
+            ,uniqueConstraints = @UniqueConstraint(columnNames = {"id_direcciones"})
+    ) //Esta va a ser la tabla de relacion entre ambas tablas
     private List<Address> addresses;
 
     @Embedded
@@ -29,6 +34,14 @@ public class Client {
         this();
         this.lastName = lastName;
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getLastName() {
