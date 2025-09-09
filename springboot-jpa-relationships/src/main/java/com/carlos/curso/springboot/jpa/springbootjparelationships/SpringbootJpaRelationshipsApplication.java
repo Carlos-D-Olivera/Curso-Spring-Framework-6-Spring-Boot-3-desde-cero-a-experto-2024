@@ -5,7 +5,7 @@ import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Clien
 import com.carlos.curso.springboot.jpa.springbootjparelationships.entities.Invoice;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.repositories.ClientRepository;
 import com.carlos.curso.springboot.jpa.springbootjparelationships.repositories.InvoiceRepository;
-import jdk.swing.interop.SwingInterOpUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootApplication
 public class SpringbootJpaRelationshipsApplication implements CommandLineRunner {
@@ -30,7 +32,46 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) throws Exception {
-        removeAddressFindByIdClient();
+        oneToManyInvoiceBidireccionalFindById();
+    }
+
+    @Transactional
+    public void oneToManyInvoiceBidireccionalFindById() {
+
+        Optional<Client> optionalClient = clientRepository.findOne(1L);
+
+        optionalClient.ifPresent(client -> {
+
+            Invoice invoice1 = new Invoice("Compras de oficina", 40000L);
+            Invoice invoice2 = new Invoice("Compras de la casa", 5000L);
+            Invoice invoice3 = new Invoice("Compras del supermercado", 8000L);
+
+            client.addInvoice(invoice1).addInvoice(invoice2).addInvoice(invoice3);
+
+            clientRepository.save(client);
+
+            System.out.println(invoice3);
+            System.out.println(client);
+
+        });
+
+    }
+
+
+    @Transactional
+    public void oneToManyInvoiceBidireccional() {
+        Client client = new Client("Fran", "Moras");
+
+        Invoice invoice1 = new Invoice("Compras de oficina", 40000L);
+        Invoice invoice2 = new Invoice("Compras de la casa", 5000L);
+        Invoice invoice3 = new Invoice("Compras del supermercado", 8000L);
+
+        client.addInvoice(invoice1).addInvoice(invoice2).addInvoice(invoice3);
+
+        clientRepository.save(client);
+
+        System.out.println(invoice3);
+        System.out.println(client);
     }
 
     @Transactional
@@ -42,7 +83,10 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
             Address address1 = new Address("El verjel", 1234);
             Address address2 = new Address("Vasco de Gama", 9875);
 
-            client.setAddresses(Arrays.asList(address1, address2));
+            Set<Address> addresses = new HashSet<>();
+            addresses.add(address1);
+            addresses.add(address2);
+            client.setAddresses(addresses);
 
             System.out.println("\n--------------------------------------------------------------------------------");
 

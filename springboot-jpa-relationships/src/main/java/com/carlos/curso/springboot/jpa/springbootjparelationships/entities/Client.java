@@ -2,8 +2,7 @@ package com.carlos.curso.springboot.jpa.springbootjparelationships.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name="clients")
@@ -21,13 +20,20 @@ public class Client {
             ,inverseJoinColumns = @JoinColumn(name = "id_direcciones")
             ,uniqueConstraints = @UniqueConstraint(columnNames = {"id_direcciones"})
     ) //Esta va a ser la tabla de relacion entre ambas tablas
-    private List<Address> addresses;
+    private Set<Address> addresses;
 
     @Embedded
     private Audit audit = new Audit();
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "client")
+    private Set<Invoice> invoices;
+    //private List<Invoice> invoices;
+
     public Client() {
-        addresses = new ArrayList<>();
+        addresses = new HashSet<>();
+        //addresses = new ArrayList<>();
+        invoices = new HashSet<>();
+        //invoices = new ArrayList<>();
     }
 
     public Client(String lastName, String name) {
@@ -60,19 +66,34 @@ public class Client {
         this.name = name;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
+    }
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
+    public Client addInvoice(Invoice invoice){
+        invoice.setClient(this);
+        this.invoices.add(invoice);
+        return this;
     }
 
     @Override
     public String toString() {
-        return "{id=" + id +
+        return "Client {id=" + id +
                 ", name='" + name + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", invoices='" + invoices + '\'' +
                 //", createdAt='" + audit.getCreatedAt() + '\'' +
                 //", updatedAt='" + audit.getUpdatedAt() + '\'' +
                 ", addresses='" + addresses + '\'' +
