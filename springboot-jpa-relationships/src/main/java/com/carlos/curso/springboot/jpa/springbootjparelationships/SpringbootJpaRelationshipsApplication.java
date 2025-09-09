@@ -32,7 +32,42 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) throws Exception {
-        oneToManyInvoiceBidireccionalFindById();
+        RemoveOneToManyInvoiceBidireccionalFindById();
+    }
+
+    @Transactional
+    public void RemoveOneToManyInvoiceBidireccionalFindById() {
+
+        Optional<Client> optionalClient = clientRepository.findOne(1L);
+
+        optionalClient.ifPresent(client -> {
+
+            Invoice invoice1 = new Invoice("Compras de oficina", 40000L);
+            Invoice invoice2 = new Invoice("Compras de la casa", 5000L);
+            Invoice invoice3 = new Invoice("Compras del supermercado", 8000L);
+
+            client.addInvoice(invoice1).addInvoice(invoice2).addInvoice(invoice3);
+
+            clientRepository.save(client);
+
+            System.out.println(invoice3);
+            System.out.println(client);
+
+        });
+
+        Optional<Client> optionalClientBd = clientRepository.findOne(1L);
+
+        optionalClientBd.ifPresent(client->{
+            Optional<Invoice> invoiceOptional = invoiceRepository.findById(2L);
+            invoiceOptional.ifPresent(invoice->{
+                client.getInvoices().remove(invoice);
+                invoice.setClient(null);
+
+                clientRepository.save(client);
+                System.out.println(client);
+            });
+        });
+
     }
 
     @Transactional
