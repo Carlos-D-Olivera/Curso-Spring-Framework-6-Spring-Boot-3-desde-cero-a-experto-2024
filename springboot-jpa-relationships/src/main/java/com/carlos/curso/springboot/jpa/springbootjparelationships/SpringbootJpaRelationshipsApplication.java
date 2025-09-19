@@ -12,7 +12,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -32,7 +31,40 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
 
     @Override
     public void run(String... args) throws Exception {
-        RemoveOneToManyInvoiceBidireccionalFindById();
+        removeInvoiceBidireccional();
+    }
+
+    @Transactional
+    public void removeInvoiceBidireccional() {
+
+        //Optional<Client> optionalClient = Optional.of(new Client("Fran", "Moras"));
+        Client client = new Client("Fran", "Moras");
+
+        Invoice invoice1 = new Invoice("Compras de oficina", 40000L);
+        Invoice invoice2 = new Invoice("Compras de la casa", 5000L);
+        Invoice invoice3 = new Invoice("Compras del supermercado", 8000L);
+
+        client.addInvoice(invoice1).addInvoice(invoice2).addInvoice(invoice3);
+
+        clientRepository.save(client);
+
+        System.out.println(invoice3);
+        System.out.println(client);
+
+
+        Optional<Client> optionalClientBd = clientRepository.findOne(3L);
+
+        optionalClientBd.ifPresent(clientBd->{
+            Optional<Invoice> invoiceOptional = invoiceRepository.findById(2L);
+            invoiceOptional.ifPresent(invoice->{
+                clientBd.removeInvoice(invoice);
+                invoice.setClient(null);
+
+                clientRepository.save(clientBd);
+                System.out.println(clientBd);
+            });
+        });
+
     }
 
     @Transactional
@@ -60,7 +92,7 @@ public class SpringbootJpaRelationshipsApplication implements CommandLineRunner 
         optionalClientBd.ifPresent(client->{
             Optional<Invoice> invoiceOptional = invoiceRepository.findById(2L);
             invoiceOptional.ifPresent(invoice->{
-                client.getInvoices().remove(invoice);
+                client.removeInvoice(invoice);
                 invoice.setClient(null);
 
                 clientRepository.save(client);
