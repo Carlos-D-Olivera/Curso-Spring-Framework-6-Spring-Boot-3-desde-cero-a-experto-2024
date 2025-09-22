@@ -29,6 +29,9 @@ public class Client {
     private Set<Invoice> invoices;
     //private List<Invoice> invoices;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "client")
+    private ClientDetails clientDetails;
+
     public Client() {
         addresses = new HashSet<>();
         //addresses = new ArrayList<>();
@@ -36,7 +39,7 @@ public class Client {
         //invoices = new ArrayList<>();
     }
 
-    public Client(String lastName, String name) {
+    public Client(String name, String lastName) {
         this();
         this.lastName = lastName;
         this.name = name;
@@ -93,6 +96,20 @@ public class Client {
         invoice.setClient(null);
     }
 
+    public ClientDetails getClientDetails() {
+        return clientDetails;
+    }
+
+    public void setClientDetails(ClientDetails clientDetails) {
+        this.clientDetails = clientDetails;
+        clientDetails.setClient(this);
+    }
+
+    public void removeClientDetails(){
+        this.clientDetails.setClient(null);
+        this.clientDetails = null;
+    }
+
     @Override
     public String toString() {
         return "Client {id=" + id +
@@ -102,6 +119,7 @@ public class Client {
                 //", createdAt='" + audit.getCreatedAt() + '\'' +
                 //", updatedAt='" + audit.getUpdatedAt() + '\'' +
                 ", addresses='" + addresses + '\'' +
+                ", clientDetails='" + clientDetails + '\'' +
 
                 '}';
     }

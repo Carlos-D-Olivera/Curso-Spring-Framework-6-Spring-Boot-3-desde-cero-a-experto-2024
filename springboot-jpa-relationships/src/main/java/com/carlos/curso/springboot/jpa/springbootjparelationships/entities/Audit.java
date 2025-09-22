@@ -18,7 +18,6 @@ public class Audit {
 
     @PrePersist
     private void prePersist(){
-        System.out.println("entroo");
         this.createdAt = LocalDateTime.now();
     }
 
