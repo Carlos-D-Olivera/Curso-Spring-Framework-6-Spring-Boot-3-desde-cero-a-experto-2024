@@ -1,6 +1,7 @@
 package com.carlos.curso.springboot.app.springbootcrud.controllers;
 
 
+//import com.carlos.curso.springboot.app.springbootcrud.ProductValidation;
 import com.carlos.curso.springboot.app.springbootcrud.entities.Product;
 import com.carlos.curso.springboot.app.springbootcrud.services.IProductService;
 import jakarta.validation.Valid;
@@ -22,6 +23,9 @@ public class ProductController {
     @Autowired
     private IProductService productService;
 
+//    @Autowired
+//    private ProductValidation validation;
+
     @GetMapping
     public List<Product> list(){
         return productService.findAll();
@@ -38,6 +42,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result){
+//        validation.validate(product, result);
 
         if(result.hasFieldErrors()){
             return validation(result);
@@ -52,6 +57,8 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
 
+//        validation.validate(product, result);
+
         if(result.hasFieldErrors()){
             return validation(result);
         }
@@ -63,7 +70,6 @@ public class ProductController {
         }
 
         return ResponseEntity.notFound().build();
-
     }
 
     @DeleteMapping("/{id}")

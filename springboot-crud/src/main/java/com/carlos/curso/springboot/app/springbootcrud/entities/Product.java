@@ -1,7 +1,10 @@
 package com.carlos.curso.springboot.app.springbootcrud.entities;
 
+import com.carlos.curso.springboot.app.springbootcrud.validation.IsExistDb;
+import com.carlos.curso.springboot.app.springbootcrud.validation.IsRequired;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+//import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "products")
@@ -11,15 +14,21 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @IsExistDb
+    @IsRequired
+    private String sku;
+
+//    @NotEmpty(message = "{NotEmpty.product.name}")
+    @IsRequired(message = "{IsRequired.product.name}")
     @Size(min=3, max=20)
     private String name;
 
-    @Min(500)
-    @NotNull
+    @Min(value = 500, message = "{Min.product.price}")
+    @NotNull(message = "{NotNull.product.price}")
     private Integer price;
 
-    @NotBlank
+//    @NotBlank(message = "{NotBlank.product.description}")
+    @IsRequired
     private String description;
 
     public Long getId() {
@@ -52,5 +61,13 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 }
