@@ -35,10 +35,11 @@ public class UserServiceImpl implements IUserService{
     @Transactional
     public User save(User user) {
 
-        Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
         List<Role> roles = new ArrayList<>();
+
+        Optional<Role> optionalRoleUser = roleRepository.findByName("ROLE_USER");
 //        optionalRoleUser.ifPresent(role -> {roles.add(role)});
-        optionalRoleUser.ifPresent(roles::add);
+        optionalRoleUser.ifPresent(roles::add); //se agrega ROLE_USER a la lista de roles
 
         if(user.isAdmin()){
             Optional<Role> optionalRoleAdmin =  roleRepository.findByName("ROLE_ADMIN");

@@ -1,7 +1,10 @@
 package com.carlos.curso.springboot.app.springbootcrud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -13,10 +16,13 @@ public class User {
     private Long id;
 
     @NotBlank
+    @Size(min=4, max=12)
     @Column(unique = true)
     private String username;
 
     @NotBlank
+//    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -27,8 +33,16 @@ public class User {
     )
     private List<Role> roles;
 
+    private boolean enabled;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Transient //@Transient: especifica que este campo no es de la tabla en bd
     private boolean admin;
+
+    @PrePersist
+    public void prePersist(){
+        enabled = true;
+    }
 
     public Long getId() {
         return id;
@@ -68,5 +82,13 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
