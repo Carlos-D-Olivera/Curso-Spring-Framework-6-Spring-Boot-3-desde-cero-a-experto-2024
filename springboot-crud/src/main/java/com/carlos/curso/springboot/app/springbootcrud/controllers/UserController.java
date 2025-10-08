@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
@@ -33,6 +34,12 @@ public class UserController {
         }
 
         return  ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult result){
+        user.setAdmin(false);
+        return create(user, result);
     }
 
 

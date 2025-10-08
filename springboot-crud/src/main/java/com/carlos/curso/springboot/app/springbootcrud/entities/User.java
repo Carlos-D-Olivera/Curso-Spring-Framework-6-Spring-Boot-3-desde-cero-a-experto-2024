@@ -1,9 +1,12 @@
 package com.carlos.curso.springboot.app.springbootcrud.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -17,8 +20,11 @@ public class User {
     private String username;
 
     @NotBlank
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+
+    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -27,7 +33,8 @@ public class User {
     )
     private List<Role> roles;
 
-    @Transient //@Transient: especifica que este campo no es de la tabla en bd
+    @Transient //@Transient: especifica que este campo no es de la tabla en bd Y no se creara en la bd
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;
 
     public Long getId() {
@@ -68,5 +75,26 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
     }
 }
