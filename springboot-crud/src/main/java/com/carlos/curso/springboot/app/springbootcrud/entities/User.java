@@ -1,12 +1,14 @@
 package com.carlos.curso.springboot.app.springbootcrud.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.carlos.curso.springboot.app.springbootcrud.validation.ExistsByUsername;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users")
@@ -18,6 +20,7 @@ public class User {
     @NotBlank
     @Size(min=4, max=12)
     @Column(unique = true)
+    @ExistsByUsername
     private String username;
 
     @NotBlank
@@ -25,7 +28,9 @@ public class User {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
@@ -33,10 +38,8 @@ public class User {
     )
     private List<Role> roles;
 
-    private boolean enabled;
-
+    @Transient //@Transient: especifica que este campo no es de la tabla en bd Y no se creara en la bd
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Transient //@Transient: especifica que este campo no es de la tabla en bd
     private boolean admin;
 
     @PrePersist
@@ -90,5 +93,26 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

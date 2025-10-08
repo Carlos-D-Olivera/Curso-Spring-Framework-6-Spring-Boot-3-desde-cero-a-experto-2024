@@ -18,14 +18,13 @@ public class SpringSecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.authorizeHttpRequests((authz)->authz
-                .requestMatchers(HttpMethod.GET,"/api/users").permitAll()
-                .requestMatchers(HttpMethod.POST,"/api/users").permitAll()
-                .anyRequest().authenticated())
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+        return http.authorizeHttpRequests((authz)-> authz.requestMatchers(HttpMethod.GET, "/api/users").permitAll()
+                                                         .requestMatchers(HttpMethod.POST, "/api/users/register").permitAll()
+                                                         .anyRequest().authenticated())
                 .csrf(config -> config.disable())
-                .sessionManagement(management -> management
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                ).build();
+                .sessionManagement(management ->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .build();
+
     }
 }
