@@ -51,4 +51,10 @@ public class UserServiceImpl implements IUserService{
 
         return userRepository.save(user);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
 }

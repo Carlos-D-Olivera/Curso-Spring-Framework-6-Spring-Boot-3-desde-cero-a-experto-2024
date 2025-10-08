@@ -1,5 +1,6 @@
 package com.carlos.curso.springboot.app.springbootcrud.entities;
 
+import com.carlos.curso.springboot.app.springbootcrud.validation.ExistsByUsername;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -17,6 +18,7 @@ public class User {
 
     @NotBlank
     @Column(unique = true)
+    @ExistsByUsername
     private String username;
 
     @NotBlank
@@ -25,7 +27,7 @@ public class User {
 
 
     @JsonIgnoreProperties({"users", "handler", "hibernateLazyInitializer"})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"),
