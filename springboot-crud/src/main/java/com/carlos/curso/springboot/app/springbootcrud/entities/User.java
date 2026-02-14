@@ -38,6 +38,8 @@ public class User {
     )
     private List<Role> roles;
 
+    private boolean enabled;
+
     @Transient //@Transient: especifica que este campo no es de la tabla en bd Y no se creara en la bd
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private boolean admin;

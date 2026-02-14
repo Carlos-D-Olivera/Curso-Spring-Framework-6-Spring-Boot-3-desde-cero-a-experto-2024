@@ -46,7 +46,7 @@ public class UserController {
     private ResponseEntity<?> validation(BindingResult result){
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(fieldError -> {
-            errors.put(fieldError.getField(), "EL campo "+fieldError.getField()+" "+fieldError.getDefaultMessage());
+            errors.put(fieldError.getField(), "EL campo "+fieldError.getField()+": "+fieldError.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }
