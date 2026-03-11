@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,11 +28,13 @@ public class ProductController {
 //    private ProductValidation validation;
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public List<Product> list(){
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> view(@PathVariable Long id){
         Optional<Product> productOptional = productService.findById(id);
         if(productOptional.isPresent()){
@@ -41,6 +44,7 @@ public class ProductController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody Product product, BindingResult result){
 //        validation.validate(product, result);
 
@@ -55,6 +59,7 @@ public class ProductController {
     //@Valid: se usa para especificar que se debe validar el objeto recibido con las restricciones en la entity ej: @NotNull, @Min, @NotEmpty
     //BindingResult result: Este objeto se debe colocar despues del objeto a validar (@Valid), aqui se ven los mensajes y errores encontrados en la validacion
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> update(@Valid @RequestBody Product product, BindingResult result, @PathVariable Long id){
 
 //        validation.validate(product, result);
@@ -73,6 +78,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id){
 
 
