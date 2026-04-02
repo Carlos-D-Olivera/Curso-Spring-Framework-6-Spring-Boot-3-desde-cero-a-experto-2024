@@ -1,46 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { listProduct } from "../services/ProductService";
+import { ProductTable } from "./ProductTable";
 
-const initProducts = [
-    {
-        name: 'Monitor Samsung 65',
-        price: 1500000,
-        description: 'El monitor es increible!'
-    },
-    {
-        name: 'Iphone 16',
-        price: 6800000,
-        description: 'El telefono es muy bueno!'
-    }
-]
+
 
 export const ProductApp = () =>{
 
-    const [products, setProducts] = useState(initProducts);
+    //Se usa useState para indicar que se renderizara un nuevo valor de products
+    //                   cada vez que se use setProducts
+    const [products, setProducts] = useState([]);
 
-    //setProducts(initProducts);
+
+    //Se usa useEffect para hacer que se 
+    useEffect(()=>{
+        const result = listProduct();
+        setProducts(result);
+    }, [])
+    
 
     return (        
         <>
-            <h1>Hola mundo React</h1>   
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>  
-                <tbody>
-                    {products.map( product =>{
-                        return(
-                        <tr key={product.name}>
-                            <td>{product.name}</td>
-                            <td>{product.price}</td>
-                            <td>{product.description}</td>
-                        </tr>)
-                    })}
-                </tbody>  
-            </table>      
+            <h1>Productos</h1>   
+            <ProductTable products={products}/>      
         </>
     )
 }
