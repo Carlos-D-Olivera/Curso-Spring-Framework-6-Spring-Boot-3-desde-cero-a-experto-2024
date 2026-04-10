@@ -6,6 +6,6 @@ import {ProductApp} from './components/ProductApp.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ProductApp />
+    <ProductApp title='Lista de Productos!'/>
   </StrictMode>,
 )

@@ -1,4 +1,5 @@
 import { ProductDetail } from "./ProductDetail"
+import { PropTypes } from "prop-types"
 
 export const ProductTable = ({products})=>{
     return(
@@ -17,4 +18,8 @@ export const ProductTable = ({products})=>{
                 </tbody>  
     </table>
     )
+}
+
+ProductTable.propTypes = {
+    products: PropTypes.array.isRequired
 }

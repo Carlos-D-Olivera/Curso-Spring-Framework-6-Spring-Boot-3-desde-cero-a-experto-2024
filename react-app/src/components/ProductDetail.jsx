@@ -1,3 +1,5 @@
+import { PropTypes } from "prop-types"
+
 export const ProductDetail = ({product={}})=>{
     return(
     <tr>
@@ -6,4 +8,7 @@ export const ProductDetail = ({product={}})=>{
         <td>{product.description}</td>
     </tr>
     )
+}
+ProductDetail.propTypes = {
+    product: PropTypes.object.isRequired
 }
