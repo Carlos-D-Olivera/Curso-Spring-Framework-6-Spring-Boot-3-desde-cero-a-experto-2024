@@ -14,17 +14,21 @@ export const ProductApp = ({title}) =>{
     const [products, setProducts] = useState([]);
 
 
-    //Se usa useEffect para hacer que se 
+    //Se usa useEffect para hacer que se ejecute la funcion listProduct una sola vez, al momento de cargar el componente.
     useEffect(()=>{
         const result = listProduct();
         setProducts(result);
     }, [])
     
+    const handlerAddProduct = (product) =>{
+        console.log(product);
+        setProducts([...products, {...product}]) //Se esparcen los productos para que se 
+    }
 
     return (        
         <>
             <h1>{ title }</h1>   
-            <ProductForm></ProductForm>
+            <ProductForm handlerAdd = {handlerAddProduct} />
             <ProductTable products={products}/>      
         </>
     )

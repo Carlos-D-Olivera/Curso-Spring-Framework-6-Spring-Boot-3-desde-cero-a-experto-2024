@@ -6,7 +6,7 @@ const initialDataForm = {
     price: ''
 }
 
-export const ProductForm = ()=>{
+export const ProductForm = ({handlerAdd})=>{
 
     const [form, setForm] = useState(initialDataForm);
 
@@ -20,8 +20,8 @@ export const ProductForm = ()=>{
                 alert('Debe completar los datos del formulario');
             }
 
-            console.log(form)
-
+            //console.log(form)
+            handlerAdd(form)
             setForm(initialDataForm);
         }}>
             <div>
