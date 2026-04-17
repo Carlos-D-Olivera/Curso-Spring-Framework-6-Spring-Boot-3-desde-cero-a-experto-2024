@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { listProduct } from "../services/ProductService";
 import { ProductTable } from "./ProductTable";
-import PropTypes from "prop-types";
 import { ProductForm } from "./ProductForm";
 
 
@@ -25,15 +24,16 @@ export const ProductApp = ({title}) =>{
         setProducts([...products, {...product}]) //Se esparcen los productos para que se 
     }
 
+    const handlerRemoveProduct = (name) =>{
+        console.log(name);
+        setProducts(products.filter(product => product.name != name))
+    }
+
     return (        
         <>
             <h1>{ title }</h1>   
-            <ProductForm handlerAdd = {handlerAddProduct} />
-            <ProductTable products={products}/>      
+            <ProductForm handlerAdd = {handlerAddProduct}/>
+            <ProductTable products={products} handlerRemove = {handlerRemoveProduct}/>      
         </>
     )
-}
-
-ProductApp.propTypes = {
-    title: PropTypes.string.isRequired
 }

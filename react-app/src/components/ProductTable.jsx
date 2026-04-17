@@ -1,7 +1,6 @@
 import { ProductDetail } from "./ProductDetail"
-import { PropTypes } from "prop-types"
 
-export const ProductTable = ({products})=>{
+export const ProductTable = ({products, handlerRemove})=>{
     return(
     <table>
                 <thead>
@@ -9,17 +8,14 @@ export const ProductTable = ({products})=>{
                         <th>Name</th>
                         <th>Price</th>
                         <th>Description</th>
+                        <th>remove</th>
                     </tr>
                 </thead>  
                 <tbody>
                     {products.map( product =>{
-                        return <ProductDetail product={product} key={product.name} />
+                        return <ProductDetail product={product} key={product.name} handlerRemove = {handlerRemove}/>
                     })}
                 </tbody>  
     </table>
     )
-}
-
-ProductTable.propTypes = {
-    products: PropTypes.array.isRequired
 }
