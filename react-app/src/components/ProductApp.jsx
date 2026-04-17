@@ -12,6 +12,11 @@ export const ProductApp = ({title}) =>{
     //                   cada vez que se use setProducts
     const [products, setProducts] = useState([]);
 
+    const [productSelected, setProductSelected] = useState({
+        name: '',
+        description: '',
+        price: ''       
+    });
 
     //Se usa useEffect para hacer que se ejecute la funcion listProduct una sola vez, al momento de cargar el componente.
     useEffect(()=>{
@@ -29,10 +34,14 @@ export const ProductApp = ({title}) =>{
         setProducts(products.filter(product => product.name != name))
     }
 
+    const handlerProductSelected = (product) =>{
+        setProductSelected(...product);
+    }
+
     return (        
         <>
             <h1>{ title }</h1>   
-            <ProductForm handlerAdd = {handlerAddProduct}/>
+            <ProductForm handlerAdd = {handlerAddProduct} handlerSelected = {handlerProductSelected}/>
             <ProductTable products={products} handlerRemove = {handlerRemoveProduct}/>      
         </>
     )
