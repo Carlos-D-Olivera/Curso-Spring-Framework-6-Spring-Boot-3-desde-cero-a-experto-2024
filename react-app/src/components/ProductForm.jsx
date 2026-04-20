@@ -6,15 +6,15 @@ const initialDataForm = {
     price: ''
 }
 
-export const ProductForm = ({handlerAdd, handlerSelected})=>{
+export const ProductForm = ({handlerAdd, productSelected})=>{
 
     const [form, setForm] = useState(initialDataForm);
 
     const {name, description, price} = form;
 
     useEffect(()=>{
-        setForm(product)
-    })
+        setForm(productSelected)
+    }, [productSelected])
 
     return (
         <form onSubmit={(event)=>{            
@@ -22,6 +22,7 @@ export const ProductForm = ({handlerAdd, handlerSelected})=>{
             
             if(!name || !description || !price){
                 alert('Debe completar los datos del formulario');
+                return;
             }
 
             //console.log(form)
@@ -36,7 +37,8 @@ export const ProductForm = ({handlerAdd, handlerSelected})=>{
                 })} />
             </div>
             <div>
-                <input placeholder="Description" name="description" value={description} onChange={(event)=>setForm({
+                <input placeholder="Description" name="description" value={description} style={{marginBottom:'2px'}}
+                    onChange={(event)=>setForm({
                     ...form,
                     description: event.target.value
                 })} />
@@ -49,6 +51,7 @@ export const ProductForm = ({handlerAdd, handlerSelected})=>{
                 })} />
             </div>
             <button type="submit">Create</button>
+            <button type="button" onClick={()=>setForm(initialDataForm)}>Clear</button>
         </form>
     )
 }

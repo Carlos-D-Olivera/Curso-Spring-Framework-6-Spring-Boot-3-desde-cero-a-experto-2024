@@ -35,14 +35,14 @@ export const ProductApp = ({title}) =>{
     }
 
     const handlerProductSelected = (product) =>{
-        setProductSelected(...product);
+        setProductSelected(product);
     }
 
     return (        
         <>
             <h1>{ title }</h1>   
-            <ProductForm handlerAdd = {handlerAddProduct} handlerSelected = {handlerProductSelected}/>
-            <ProductTable products={products} handlerRemove = {handlerRemoveProduct}/>      
+            <ProductForm handlerAdd = {handlerAddProduct} productSelected = {productSelected}/>
+            <ProductTable products={products} handlerRemove = {handlerRemoveProduct}  handlerSelected = {handlerProductSelected}/>      
         </>
     )
 }

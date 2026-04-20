@@ -1,11 +1,11 @@
-export const ProductDetail = ({product={}, handlerRemove})=>{
+export const ProductDetail = ({product={}, handlerRemove, handlerSelected})=>{
     return(
     <tr>
         <td>{product.name}</td>
         <td>{product.price}</td>
         <td>{product.description}</td>
         <td>
-            <button onClick={()=>handlerRemove(product.name)}>
+            <button onClick={()=>handlerSelected(product)}>
                 Update
             </button>
         </td>
