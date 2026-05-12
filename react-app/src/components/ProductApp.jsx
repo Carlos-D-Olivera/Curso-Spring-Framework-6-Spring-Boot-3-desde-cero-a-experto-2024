@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { listProduct } from "../services/ProductService";
 import { ProductTable } from "./ProductTable";
 import { ProductForm } from "./ProductForm";
+import { AlertModal } from "./AlertModal";
 
 
 
@@ -24,6 +25,13 @@ export const ProductApp = ({title}) =>{
         const result = listProduct();
         setProducts(result);
     }, [])
+
+    const [show, setShow] = useState({
+        isOpen: false,
+        title: '', 
+        message: ''
+        }
+    )
     
     const handlerAddProduct = (product) =>{
         console.log(product);
@@ -43,9 +51,20 @@ export const ProductApp = ({title}) =>{
 
     }
 
-    const handlerRemoveProduct = (name) =>{
-        console.log(name);
-        setProducts(products.filter(product => product.name != name))
+    const showWarning = (title, message) =>{
+        
+        setShow({isOpen: true, title: title, message: message});
+        console.log("alert")
+        //setTimeout(2000)
+        //setShow({isOpen: false, title: '',  message: '' })
+
+        return false;
+    }
+
+    const handlerRemoveProduct = (id) =>{
+        showWarning( "Cuidado!", "¿Estas seguro que deseas eliminar este producto?")
+        console.log(id);
+        setProducts(products.filter(product => product.id != id))
     }
 
     const handlerProductSelected = (product) =>{
@@ -53,10 +72,22 @@ export const ProductApp = ({title}) =>{
     }
 
     return (        
-        <>
-            <h1>{ title }</h1>   
-            <ProductForm handlerAdd = {handlerAddProduct} productSelected = {productSelected}/>
-            <ProductTable products={products} handlerRemove = {handlerRemoveProduct}  handlerSelected = {handlerProductSelected}/>      
-        </>
+        <div className="container my-4">
+            <h1>{ title }</h1>
+            <div className="row">
+                <div className="col">
+                    <ProductForm handlerAdd = {handlerAddProduct} productSelected = {productSelected}/>
+                </div>
+                <div className="col">
+                    {
+                        products.length > 0 ?
+                        <ProductTable products={products} handlerRemove = {handlerRemoveProduct}  handlerSelected = {handlerProductSelected}/>                  
+                        :
+                        <div className="alert alert-warning">No hay productos en el sistema</div>
+                    }
+                </div>
+            </div>   
+            <AlertModal show={show}></AlertModal>
+        </div>
     )
 }

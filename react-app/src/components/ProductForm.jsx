@@ -11,7 +11,7 @@ export const ProductForm = ({handlerAdd, productSelected})=>{
 
     const [form, setForm] = useState(initialDataForm);
 
-    const {name, description, price} = form;
+    const {id, name, description, price} = form;
 
     useEffect(()=>{
         setForm(productSelected)
@@ -31,28 +31,30 @@ export const ProductForm = ({handlerAdd, productSelected})=>{
             setForm(initialDataForm);
         }}>
             <div>
-                <input placeholder="Name" name="name" value={name} style={{marginBottom:'2px'}}                
+                <input placeholder="Name" className="form-control my-3 w-75" name="name" value={name} style={{marginBottom:'2px'}}                
                     onChange={(event)=>setForm({
                     ...form, 
                     name: event.target.value
                 })} />
             </div>
             <div>
-                <input placeholder="Description" name="description" value={description} style={{marginBottom:'2px'}}
+                <input placeholder="Description" className="form-control my-3 w-75" name="description" value={description} style={{marginBottom:'2px'}}
                     onChange={(event)=>setForm({
                     ...form,
                     description: event.target.value
                 })} />
             </div>
             <div>
-                <input placeholder="Price" name="price" value={price} style={{marginBottom:'2px'}}   
+                <input placeholder="Price" name="price" className="form-control my-3 w-75" value={price} style={{marginBottom:'2px'}}   
                     onChange={(event)=>setForm({
                     ...form,
                     price: event.target.value
                 })} />
             </div>
-            <button type="submit">Save</button>
-            <button type="button" onClick={()=>setForm(initialDataForm)}>Clear</button>
+            <button type="submit" className="btn btn-primary me-1">
+                {id > 0? 'Update' : 'Create'}
+            </button>
+            <button type="button" className="btn btn-secondary" onClick={()=>setForm(initialDataForm)}>Clear</button>
         </form>
     )
 }

@@ -2,14 +2,14 @@ import { ProductDetail } from "./ProductDetail"
 
 export const ProductTable = ({products, handlerRemove, handlerSelected})=>{
     return(
-    <table>
+    <table className="table table-hover table-striped">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Description</th>
-                        <th>update</th>
-                        <th>remove</th>
+                        <th>Update</th>
+                        <th>Remove</th>
                     </tr>
                 </thead>  
                 <tbody>
@@ -17,6 +17,6 @@ export const ProductTable = ({products, handlerRemove, handlerSelected})=>{
                         return <ProductDetail product={product} key={product.name} handlerRemove = {handlerRemove} handlerSelected = {handlerSelected}/>
                     })}
                 </tbody>  
-    </table>
+    </table> 
     )
 }
