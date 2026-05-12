@@ -13,6 +13,10 @@ export const ProductApp = ({title}) =>{
     //                   cada vez que se use setProducts
     const [products, setProducts] = useState([]);
 
+    const [opened, setOpen] = useState(false);
+
+    const [idDelete, setIdDelete] = useState(0);
+
     const [productSelected, setProductSelected] = useState({
         id: 0,
         name: '',
@@ -26,12 +30,12 @@ export const ProductApp = ({title}) =>{
         setProducts(result);
     }, [])
 
-    const [show, setShow] = useState({
-        isOpen: false,
-        title: '', 
-        message: ''
-        }
-    )
+
+    //let alertContent = {title:"", message:""}
+
+    const [alertContent, setAlertContent] = useState({title:"", message:""})
+
+    const [onConfirm, setConfirmAction] = useState(()=>()=>{});
     
     const handlerAddProduct = (product) =>{
         console.log(product);
@@ -49,22 +53,30 @@ export const ProductApp = ({title}) =>{
             setProducts([...products, {...product, id: new Date().getTime()}])
         }
 
+    }    
+
+    function alert(title, message/*, onConfirm*/){
+        //alertContent = {title: title, message: message};
+        setAlertContent({title: title, message: message});
+        //setConfirmAction(()=>onConfirm);        
+        
+        setOpen(true);
     }
 
-    const showWarning = (title, message) =>{
-        
-        setShow({isOpen: true, title: title, message: message});
-        console.log("alert")
-        //setTimeout(2000)
-        //setShow({isOpen: false, title: '',  message: '' })
-
-        return false;
+    const onClose = () =>{
+        setOpen(false);
     }
 
     const handlerRemoveProduct = (id) =>{
-        showWarning( "Cuidado!", "¿Estas seguro que deseas eliminar este producto?")
-        console.log(id);
-        setProducts(products.filter(product => product.id != id))
+        setIdDelete(id);
+        alert("Cuidado!","Â¿Estas seguro que deseas eliminar este producto?"/*, removeProduct*/);
+    }
+
+    const removeProduct = () =>{     
+        if(idDelete > 0) {
+            setProducts(products.filter(product => product.id != idDelete))
+            setIdDelete(0)
+        }
     }
 
     const handlerProductSelected = (product) =>{
@@ -87,7 +99,7 @@ export const ProductApp = ({title}) =>{
                     }
                 </div>
             </div>   
-            <AlertModal show={show}></AlertModal>
+            <AlertModal opened={opened} content={alertContent} confirmAction={removeProduct} onClose={onClose}></AlertModal>
         </div>
     )
 }
