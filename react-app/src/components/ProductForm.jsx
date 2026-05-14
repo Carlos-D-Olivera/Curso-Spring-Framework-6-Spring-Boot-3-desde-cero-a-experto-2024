@@ -7,7 +7,7 @@ const initialDataForm = {
     price: ''
 }
 
-export const ProductForm = ({handlerAdd, productSelected})=>{
+export const ProductForm = ({handlerAdd, productSelected, handlerSelected})=>{
 
     const [form, setForm] = useState(initialDataForm);
 
@@ -54,7 +54,11 @@ export const ProductForm = ({handlerAdd, productSelected})=>{
             <button type="submit" className="btn btn-primary me-1">
                 {id > 0? 'Update' : 'Create'}
             </button>
-            <button type="button" className="btn btn-secondary" onClick={()=>setForm(initialDataForm)}>Clear</button>
+            <button type="button" className="btn btn-secondary" onClick={
+                ()=>{
+                    setForm(initialDataForm);
+                    handlerSelected(initialDataForm);
+                }}>Clear</button>
         </form>
     )
 }
