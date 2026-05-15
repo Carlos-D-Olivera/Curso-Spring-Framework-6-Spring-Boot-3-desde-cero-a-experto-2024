@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { listProduct } from "../services/ProductService";
+import { findAll } from "../services/ProductService";
 import { ProductTable } from "./ProductTable";
 import { ProductForm } from "./ProductForm";
 import { AlertModal } from "./AlertModal";
@@ -24,10 +24,16 @@ export const ProductApp = ({title}) =>{
         price: ''       
     });
 
+    const getProducts = async () => {
+
+        const result = await findAll();
+        console.log(result);
+        setProducts(result.data._embedded.products);
+    }
+
     //Se usa useEffect para hacer que se ejecute la funcion listProduct una sola vez, al momento de cargar el componente.
     useEffect(()=>{
-        const result = listProduct();
-        setProducts(result);
+        getProducts();
     }, [])
 
 
