@@ -14,7 +14,7 @@ export const ProductTable = ({products, handlerRemove, handlerSelected})=>{
                 </thead>  
                 <tbody>
                     {products.map( product =>{
-                        return <ProductDetail product={product} key={product.name} handlerRemove = {handlerRemove} handlerSelected = {handlerSelected}/>
+                        return <ProductDetail product={product} key={product.id} handlerRemove = {handlerRemove} handlerSelected = {handlerSelected}/>
                     })}
                 </tbody>  
     </table> 

@@ -14,12 +14,10 @@ export const AlertModal = ({opened, content={}, confirmAction, onClose}) =>{
             onClose();
         })
 
-        console.log(confirmAction)
     },[]);
 
     useEffect(()=>{
-        
-        console.log(confirmAction);
+
         if(opened){
             modalInstance.current.show();
         }else{
@@ -29,7 +27,7 @@ export const AlertModal = ({opened, content={}, confirmAction, onClose}) =>{
     },[opened])
 
     return (
-        <div className="modal" ref={modalRef} tabIndex="-1" aria-labelledby="exampleModalLabel">
+        <div className="modal" ref={modalRef} aria-labelledby="exampleModalLabel">
             <div className="modal-dialog">
                 <div className="modal-content">
                 <div className="modal-header">
@@ -41,7 +39,12 @@ export const AlertModal = ({opened, content={}, confirmAction, onClose}) =>{
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" onClick={()=>{modalInstance.current.hide(); onClose()}}>Close</button>
-                    <button type="button" className="btn btn-danger" onClick={()=>{confirmAction(); onClose()}}>Remove</button>
+                    {   
+                        content.type == "alert" && 
+                        ( 
+                        <button type="button" className="btn btn-danger" onClick={()=>{confirmAction(); onClose()}}>Remove</button>
+                        )
+                    }
                 </div>
                 </div>
             </div>
